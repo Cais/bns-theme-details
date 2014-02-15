@@ -26,6 +26,8 @@ This plugin can be used to display the recent download count of a theme, as well
 Reading this article for further assistance: http://wpfirstaid.com/2009/12/plugin-installation/
 
 == Frequently Asked Questions ==
+Q: Why am I not seeing any Theme Details?
+This plugin currently only handles those themes that can be found in the WordPress Theme repository and will provide the most details if the theme is also installed on the site the plugin is being used on.
 
 == Screenshots ==
 
