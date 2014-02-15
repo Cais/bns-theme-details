@@ -22,7 +22,7 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @link           http://buynowshop.com/plugins/bns-theme-details
  * @link           https://github.com/Cais/bns-theme-details
  * @link           http://wordpress.org/extend/plugins/bns-theme-details/
- * @version        1.0
+ * @version        0.1
  * @author         Edward Caissie <edward.caissie@gmail.com>
  * @copyright      Copyright (c) 2014, Edward Caissie
  *
@@ -115,7 +115,15 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		/** User-selected settings */
 		$title      = apply_filters( 'widget_title', $instance['title'] );
 		$theme_slug = $instance['theme_slug'];
-
+		/** The Main Options */
+		$show_name              = $instance['show_name'];
+		$show_author            = $instance['show_author'];
+		$show_rating            = $instance['show_rating'];
+		$show_number_of_ratings = $instance['show_number_of_ratings'];
+		$show_last_updated      = $instance['show_last_updated'];
+		$show_downloaded_count  = $instance['show_downloaded_count'];
+		$use_screenshot_link    = $instance['use_screenshot_link'];
+		$use_download_link      = $instance['use_download_link'];
 
 		/** @var $before_widget string - define by theme */
 		echo $before_widget;
@@ -159,6 +167,15 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		/** Strip tags (if needed) and update the widget settings */
 		$instance['title']      = strip_tags( $new_instance['title'] );
 		$instance['theme_slug'] = $new_instance['theme_slug'];
+		/** The Main Options */
+		$instance['show_name']              = $new_instance['show_name'];
+		$instance['show_author']            = $new_instance['show_author'];
+		$instance['show_rating']            = $new_instance['show_rating'];
+		$instance['show_number_of_ratings'] = $new_instance['show_number_of_ratings'];
+		$instance['show_last_updated']      = $new_instance['show_last_updated'];
+		$instance['show_downloaded_count']  = $new_instance['show_downloaded_count'];
+		$instance['use_screenshot_link']    = $new_instance['use_screenshot_link'];
+		$instance['use_download_link']      = $new_instance['use_download_link'];
 
 		return $instance;
 
@@ -187,8 +204,18 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 		/** Set up some default widget settings */
 		$defaults = array(
-			'title'      => $this->widget_title( $instance['theme_slug'] ),
-			'theme_slug' => wp_get_theme()->get_template()
+			'title'                  => $this->widget_title( $instance['theme_slug'] ),
+			'theme_slug'             => wp_get_theme()->get_template(),
+			/** The Main Options */
+			'show_name'              => true,
+			'show_author'            => true,
+			'show_rating'            => true,
+			'show_number_of_ratings' => true,
+			'show_last_updated'      => true,
+			'show_downloaded_count'  => true,
+			'use_screenshot_link'    => true,
+			'use_download_link'      => true
+
 		);
 		$instance = wp_parse_args( ( array ) $instance, $defaults ); ?>
 
@@ -205,6 +232,70 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 			<input class="widefat" id="<?php echo $this->get_field_id( 'theme_slug' ); ?>"
 				   name="<?php echo $this->get_field_name( 'theme_slug' ); ?>"
 				   value="<?php echo $instance['theme_slug']; ?>" style="width:100%;" />
+		</p>
+
+		<p>
+			<input class="checkbox" type="checkbox" <?php checked( ( bool ) $instance['show_name'], true ); ?>
+				   id="<?php echo $this->get_field_id( 'show_name' ); ?>"
+				   name="<?php echo $this->get_field_name( 'show_name' ); ?>" />
+			<label
+				for="<?php echo $this->get_field_id( 'show_name' ); ?>"><?php _e( 'Show name?', 'bns-td' ); ?></label>
+		</p>
+
+		<p>
+			<input class="checkbox" type="checkbox" <?php checked( ( bool ) $instance['show_author'], true ); ?>
+				   id="<?php echo $this->get_field_id( 'show_author' ); ?>"
+				   name="<?php echo $this->get_field_name( 'show_author' ); ?>" />
+			<label
+				for="<?php echo $this->get_field_id( 'show_author' ); ?>"><?php _e( 'Show author?', 'bns-td' ); ?></label>
+		</p>
+
+		<p>
+			<input class="checkbox" type="checkbox" <?php checked( ( bool ) $instance['show_rating'], true ); ?>
+				   id="<?php echo $this->get_field_id( 'show_rating' ); ?>"
+				   name="<?php echo $this->get_field_name( 'show_rating' ); ?>" />
+			<label
+				for="<?php echo $this->get_field_id( 'show_rating' ); ?>"><?php _e( 'Show rating?', 'bns-td' ); ?></label>
+		</p>
+
+		<p>
+			<input class="checkbox" type="checkbox" <?php checked( ( bool ) $instance['show_number_of_ratings'], true ); ?>
+				   id="<?php echo $this->get_field_id( 'show_number_of_ratings' ); ?>"
+				   name="<?php echo $this->get_field_name( 'show_number_of_ratings' ); ?>" />
+			<label
+				for="<?php echo $this->get_field_id( 'show_number_of_ratings' ); ?>"><?php _e( 'Show number of ratings?', 'bns-td' ); ?></label>
+		</p>
+
+		<p>
+			<input class="checkbox" type="checkbox" <?php checked( ( bool ) $instance['show_last_updated'], true ); ?>
+				   id="<?php echo $this->get_field_id( 'show_last_updated' ); ?>"
+				   name="<?php echo $this->get_field_name( 'show_last_updated' ); ?>" />
+			<label
+				for="<?php echo $this->get_field_id( 'show_last_updated' ); ?>"><?php _e( 'Show last updated?', 'bns-td' ); ?></label>
+		</p>
+
+		<p>
+			<input class="checkbox" type="checkbox" <?php checked( ( bool ) $instance['show_downloaded_count'], true ); ?>
+				   id="<?php echo $this->get_field_id( 'show_downloaded_count' ); ?>"
+				   name="<?php echo $this->get_field_name( 'show_downloaded_count' ); ?>" />
+			<label
+				for="<?php echo $this->get_field_id( 'show_downloaded_count' ); ?>"><?php _e( 'Show downloaded count?', 'bns-td' ); ?></label>
+		</p>
+
+		<p>
+			<input class="checkbox" type="checkbox" <?php checked( ( bool ) $instance['use_screenshot_link'], true ); ?>
+				   id="<?php echo $this->get_field_id( 'use_screenshot_link' ); ?>"
+				   name="<?php echo $this->get_field_name( 'use_screenshot_link' ); ?>" />
+			<label
+				for="<?php echo $this->get_field_id( 'use_screenshot_link' ); ?>"><?php _e( 'Use screenshot link?', 'bns-td' ); ?></label>
+		</p>
+
+		<p>
+			<input class="checkbox" type="checkbox" <?php checked( ( bool ) $instance['use_download_link'], true ); ?>
+				   id="<?php echo $this->get_field_id( 'use_download_link' ); ?>"
+				   name="<?php echo $this->get_field_name( 'use_download_link' ); ?>" />
+			<label
+				for="<?php echo $this->get_field_id( 'use_download_link' ); ?>"><?php _e( 'Use download link?', 'bns-td' ); ?></label>
 		</p>
 
 	<?php
@@ -301,12 +392,14 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 			'theme_information', array(
 				'slug'   => $theme_slug,
 				'fields' => array(
-					'name'          => true,
-					'author'        => true,
-					'rating'        => true,
-					'downloaded'    => true,
-					'download_link' => true,
-					'last_updated'  => true
+					'name'           => true,
+					'author'         => true,
+					'rating'         => true,
+					'num_ratings'    => true,
+					'screenshot_url' => true,
+					'downloaded'     => true,
+					'download_link'  => true,
+					'last_updated'   => true
 				)
 			)
 		);
@@ -320,6 +413,12 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		/** @var integer $rating - rating converted to 5 star system */
 		$rating = $api->rating / 20;
 
+		/** @var integer $number_of_ratings */
+		$number_of_ratings = $api->num_ratings;
+
+		/** @var string $screenshot_url - link to screenshot */
+		$screenshot_url = $api->screenshot_url;
+
 		/** @var integer $count - contains total downloads value */
 		$count = $api->downloaded;
 
@@ -332,7 +431,9 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		/** Sanity check - make sure there is a value for the count */
 		if ( isset( $count ) ) {
 			printf(
-				'<div class="bns-theme-details">' . __( '<!--suppress HtmlUnknownTarget --><a href="%5$s">%1$s</a> by %2$s with a rating of %3$s stars last updated on %6$s has been downloaded %4$s times.', 'bns-td' ) . '</div>',
+				'<div class="bns-theme-details">'
+				. __( '<a href="%5$s">%1$s</a> by %2$s with a rating of %3$s stars last updated on %6$s has been downloaded %4$s times.', 'bns-td' )
+				. '</div>',
 				$name,
 				$author,
 				$rating,
@@ -364,13 +465,12 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	 * @return string
 	 */
 	function widget_title( $theme_slug ) {
-		if ( $theme_slug == wp_get_theme()->get_template() ) {
-			$title = sprintf( __( '%1$s Download Counter', 'bns-td' ), wp_get_theme()->get_template() );
-		} else {
-			$title = sprintf( __( '%1$s Download Counter', 'bns-td' ), wp_get_theme( $theme_slug )->get( 'Name' ) );
-		}
 
-		/** End if - theme slug is same as current theme */
+		$theme_name = ( $theme_slug == wp_get_theme()->get_template() )
+			? wp_get_theme()->get_template()
+			: wp_get_theme( $theme_slug )->get( 'Name' );
+
+		$title = sprintf( __( '%1$s Download Counter', 'bns-td' ), $theme_name );
 
 		return $title;
 
