@@ -226,7 +226,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	function load_bnstd_widget() {
 		register_widget( 'BNS_Theme_Details_Widget' );
 	}
-	/** End function - load bnscl widget */
+	/** End function - load bnstd widget */
 
 
 	/**
@@ -332,7 +332,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		/** Sanity check - make sure there is a value for the count */
 		if ( isset( $count ) ) {
 			printf(
-				'<div class="bns-theme-details">' . __( '<!--suppress HtmlUnknownTarget --><a href="%5$s">%1$s</a> by %2$s with a rating of %3$s stars last updated on %6$s has been downloaded %4$s times.', 'bns-tc' ) . '</div>',
+				'<div class="bns-theme-details">' . __( '<!--suppress HtmlUnknownTarget --><a href="%5$s">%1$s</a> by %2$s with a rating of %3$s stars last updated on %6$s has been downloaded %4$s times.', 'bns-td' ) . '</div>',
 				$name,
 				$author,
 				$rating,
@@ -341,7 +341,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 				$last_updated
 			);
 		} else {
-			_e( 'Are you using a theme from the WordPress Theme repository?', 'bns-tc' );
+			_e( 'Are you using a theme from the WordPress Theme repository?', 'bns-td' );
 		}
 		/** End if - is count set */
 	}
@@ -365,9 +365,9 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	 */
 	function widget_title( $theme_slug ) {
 		if ( $theme_slug == wp_get_theme()->get_template() ) {
-			$title = sprintf( __( '%1$s Download Counter', 'bns-tc' ), wp_get_theme()->get_template() );
+			$title = sprintf( __( '%1$s Download Counter', 'bns-td' ), wp_get_theme()->get_template() );
 		} else {
-			$title = sprintf( __( '%1$s Download Counter', 'bns-tc' ), wp_get_theme( $theme_slug )->get( 'Name' ) );
+			$title = sprintf( __( '%1$s Download Counter', 'bns-td' ), wp_get_theme( $theme_slug )->get( 'Name' ) );
 		}
 
 		/** End if - theme slug is same as current theme */
@@ -381,5 +381,5 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 /** End class - theme counter */
 
-/** @var object $bns_td - create an instance of the */
+/** @var object $bns_td - create a new instance of the class */
 $bns_td = new BNS_Theme_Details_Widget();
