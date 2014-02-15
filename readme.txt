@@ -8,7 +8,7 @@ Stable tag: 0.1
 License: GNU General Public License v2
 License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
-Plugin used to display the recent download count of a theme specified by its slug.
+Displays theme specific details such as download count, last update, author, etc.
 
 == Description ==
 

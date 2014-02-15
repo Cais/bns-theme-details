@@ -2,7 +2,7 @@
 /*
 Plugin Name: BNS Theme Details
 Plugin URI: http://buynowshop.com/plugins/bns-theme-details
-Description: Plugin used to display the recent download count and other details of a theme specified by its slug.
+Description: Displays theme specific details such as download count, last update, author, etc.
 Version: 0.1-alpha
 Text Domain: bns-td
 Author: Edward Caissie
@@ -55,7 +55,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		/** Widget settings */
 		$widget_ops = array(
 			'classname'   => 'bns-theme-details',
-			'description' => __( 'Plugin used to display the recent download count and other details of a theme specified by its slug.', 'bns-td' )
+			'description' => __( 'Displays theme specific details such as download count, last update, author, etc.', 'bns-td' )
 		);
 		/** Widget control settings */
 		$control_ops = array(
@@ -121,28 +121,38 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		$show_rating            = $instance['show_rating'];
 		$show_number_of_ratings = $instance['show_number_of_ratings'];
 		$show_last_updated      = $instance['show_last_updated'];
+		$show_current_version   = $instance['show_current_version'];
 		$show_downloaded_count  = $instance['show_downloaded_count'];
 		$use_screenshot_link    = $instance['use_screenshot_link'];
 		$use_download_link      = $instance['use_download_link'];
 
-		/** @var $before_widget string - define by theme */
-		echo $before_widget;
+		/** Sanity check - make sure theme slug is not null */
+		if ( null !== $theme_slug ) {
 
-		/* Title of widget (before and after defined by themes). */
-		if ( $title <> null ) {
-			/**
-			 * @var $before_title   string - defined by theme
-			 * @var $after_title    string - defined by theme
-			 */
-			echo $before_title . $title . $after_title;
-		}
-		/** End if - title is null or empty */
+			/** @var $before_widget string - define by theme */
+			echo $before_widget;
 
-		/** Get the number of downloads */
-		$this->theme_api_details( $theme_slug );
+			/* Title of widget (before and after defined by themes). */
+			if ( $title <> null ) {
+				/**
+				 * @var $before_title   string - defined by theme
+				 * @var $after_title    string - defined by theme
+				 */
+				echo $before_title . $title . $after_title;
+			}
+			/** End if - title is null or empty */
 
-		/** @var $after_widget   string - defined by theme */
-		echo $after_widget;
+			/** Get the number of downloads */
+			$this->theme_api_details( $theme_slug );
+
+			/** @var $after_widget   string - defined by theme */
+			echo $after_widget;
+
+		} else {
+
+			echo null;
+
+		} /** End if - is there a theme slug */
 
 	}
 
@@ -173,6 +183,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		$instance['show_rating']            = $new_instance['show_rating'];
 		$instance['show_number_of_ratings'] = $new_instance['show_number_of_ratings'];
 		$instance['show_last_updated']      = $new_instance['show_last_updated'];
+		$instance['show_current_version']   = $new_instance['show_current_version'];
 		$instance['show_downloaded_count']  = $new_instance['show_downloaded_count'];
 		$instance['use_screenshot_link']    = $new_instance['use_screenshot_link'];
 		$instance['use_download_link']      = $new_instance['use_download_link'];
@@ -212,6 +223,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 			'show_rating'            => true,
 			'show_number_of_ratings' => true,
 			'show_last_updated'      => true,
+			'show_current_version'   => true,
 			'show_downloaded_count'  => true,
 			'use_screenshot_link'    => true,
 			'use_download_link'      => true
@@ -272,6 +284,14 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 				   name="<?php echo $this->get_field_name( 'show_last_updated' ); ?>" />
 			<label
 				for="<?php echo $this->get_field_id( 'show_last_updated' ); ?>"><?php _e( 'Show last updated?', 'bns-td' ); ?></label>
+		</p>
+
+		<p>
+			<input class="checkbox" type="checkbox" <?php checked( ( bool ) $instance['show_current_version'], true ); ?>
+				   id="<?php echo $this->get_field_id( 'show_current_version' ); ?>"
+				   name="<?php echo $this->get_field_name( 'show_current_version' ); ?>" />
+			<label
+				for="<?php echo $this->get_field_id( 'show_current_version' ); ?>"><?php _e( 'Show current version?', 'bns-td' ); ?></label>
 		</p>
 
 		<p>
@@ -346,8 +366,19 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 			'BNS_Theme_Details_Widget',
 			$instance = shortcode_atts(
 				array(
-					'title'      => __return_null(),
-					'theme_slug' => wp_get_theme()->get_template()
+					'title'                  => __return_null(),
+					'theme_slug'             => wp_get_theme()->get_template(),
+					/** The Main Options */
+					'show_name'              => true,
+					'show_author'            => true,
+					'show_rating'            => true,
+					'show_number_of_ratings' => true,
+					'show_last_updated'      => true,
+					'show_current_version'   => true,
+					'show_downloaded_count'  => true,
+					'use_screenshot_link'    => true,
+					'use_download_link'      => true
+
 				), $atts, 'bns_theme_counter'
 			),
 			$args = array(
@@ -427,6 +458,9 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 		/** @var string $last_updated - date as a numeric value */
 		$last_updated = $api->last_updated;
+
+		/** @var string $current_version - current version of theme */
+		$current_version = $api->version;
 
 		/** Sanity check - make sure there is a value for the count */
 		if ( isset( $count ) ) {
