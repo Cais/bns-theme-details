@@ -116,16 +116,6 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		$title      = apply_filters( 'widget_title', $instance['title'] );
 		$theme_slug = $instance['theme_slug'];
 		/** The Main Options */
-		$show_name              = $instance['show_name'];
-		$show_author            = $instance['show_author'];
-		$show_rating            = $instance['show_rating'];
-		$show_number_of_ratings = $instance['show_number_of_ratings'];
-		$show_last_updated      = $instance['show_last_updated'];
-		$show_current_version   = $instance['show_current_version'];
-		$show_downloaded_count  = $instance['show_downloaded_count'];
-		$use_screenshot_link    = $instance['use_screenshot_link'];
-		$use_download_link      = $instance['use_download_link'];
-
 		$main_options = array(
 			'show_name'              => $instance['show_name'],
 			'show_author'            => $instance['show_author'],
@@ -483,7 +473,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 			echo $this->display_screenshot( $main_options, $screenshot_url );
 
-			echo $this->display_name_and_author( $name, $author );
+			echo $this->display_name_and_author( $main_options, $name, $author );
 
 			echo 'Last updated: ' . $last_updated . ' (version ' . $current_version . ')<br />';
 			echo 'Average Rating: ' . $rating . ' stars (by ' . $number_of_ratings . ' voters)' . '<br />';
@@ -504,14 +494,15 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	 * Widget Title
 	 * Returns the widget title based on the theme slug used for the output
 	 *
-	 * @package    BNS_Theme_Details
-	 * @since      0.1
+	 * @package        BNS_Theme_Details
+	 * @sub-package    Output
+	 * @since          0.1
 	 *
 	 * @param $theme_slug
 	 *
-	 * @uses       wp_get_theme
-	 * @uses       wp_get_theme->get
-	 * @uses       wp_get_theme->get_template
+	 * @uses           wp_get_theme
+	 * @uses           wp_get_theme->get
+	 * @uses           wp_get_theme->get_template
 	 *
 	 * @return string
 	 */
@@ -541,6 +532,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	 * @return null|string
 	 */
 	function display_screenshot( $main_options, $screenshot_url ) {
+
 		/** Check if the screenshot link is to be used */
 		if ( $main_options['use_screenshot_link'] ) {
 
@@ -579,27 +571,35 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	 * @sub-package    Output
 	 * @since          0.1
 	 *
+	 * @param $main_options
 	 * @param $name
 	 * @param $author
 	 *
 	 * @return null|string
 	 */
-	function display_name_and_author( $name, $author ) {
+	function display_name_and_author( $main_options, $name, $author ) {
 
-		/** Make sure there is a theme name set */
-		if ( isset( $name ) ) {
+		/** Make sure there is a theme name set and it is to be shown */
+		if ( isset( $name ) && $main_options['show_name'] ) {
 
 			$output = '<div class="bnstd-theme-name">';
 			$output .= 'Theme: ' . $name;
 
-			/** Make sure there is an author name set */
-			if ( isset( $author ) ) {
+			/** Make sure there is an author name set and it is to be shown */
+			if ( isset( $author ) && $main_options['show_author'] ) {
 
 				$output .= ' by ' . '<span class="bnstd-theme-author">' . $author . '</span>';
 
-			} /** End if - author name is set */
+			}
+			/** End if - author name is set */
 
 			$output .= '</div>';
+
+			return $output;
+
+		} elseif ( ! $main_options['show_name'] && $main_options['show_author'] ) {
+
+			$output = '<div class="bnstd-theme-author">' . 'By ' . $author . '</div>';
 
 			return $output;
 
@@ -607,9 +607,11 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 			return null;
 
-		} /** End if - theme name is set */
+		}
+		/** End if - theme name is set */
 
-	} /** End function - display name and author */
+	}
+	/** End function - display name and author */
 
 }
 
