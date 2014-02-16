@@ -425,6 +425,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	 * @param $main_options - output options
 	 *
 	 * @uses       BNS_Theme_Details_Widget::display_screenshot
+	 * @uses       BNS_Theme_Details_Widget::display_name_and_author
 	 * @uses       themes_api
 	 * @uses       wp_get_theme
 	 * @uses       wp_get_theme->get_template
@@ -482,7 +483,8 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 			echo $this->display_screenshot( $main_options, $screenshot_url );
 
-			echo 'Theme: ' . $name . ' by ' . $author . '<br />';
+			echo $this->display_name_and_author( $name, $author );
+
 			echo 'Last updated: ' . $last_updated . ' (version ' . $current_version . ')<br />';
 			echo 'Average Rating: ' . $rating . ' stars (by ' . $number_of_ratings . ' voters)' . '<br />';
 			echo 'Total downloads: ' . $count . '<br />';
@@ -566,8 +568,48 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		}
 		/** End if - use screenshot link */
 
-	}
-	/** End function - display screenshot */
+	} /** End function - display screenshot */
+
+	/**
+	 * Display Name and Author
+	 * Returns the theme name and the theme author if they are set; or returns
+	 * null if they are not set
+	 *
+	 * @package        BNS_Theme_Details
+	 * @sub-package    Output
+	 * @since          0.1
+	 *
+	 * @param $name
+	 * @param $author
+	 *
+	 * @return null|string
+	 */
+	function display_name_and_author( $name, $author ) {
+
+		/** Make sure there is a theme name set */
+		if ( isset( $name ) ) {
+
+			$output = '<div class="bnstd-theme-name">';
+			$output .= 'Theme: ' . $name;
+
+			/** Make sure there is an author name set */
+			if ( isset( $author ) ) {
+
+				$output .= ' by ' . '<span class="bnstd-theme-author">' . $author . '</span>';
+
+			} /** End if - author name is set */
+
+			$output .= '</div>';
+
+			return $output;
+
+		} else {
+
+			return null;
+
+		} /** End if - theme name is set */
+
+	} /** End function - display name and author */
 
 }
 
