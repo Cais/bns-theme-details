@@ -152,7 +152,8 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 			echo null;
 
-		} /** End if - is there a theme slug */
+		}
+		/** End if - is there a theme slug */
 
 	}
 
@@ -464,19 +465,31 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 		/** Sanity check - make sure there is a value for the count */
 		if ( isset( $count ) ) {
+
+			if ( isset( $screenshot_url ) ) {
+				echo '<div class="bnstd-screenshot aligncenter">';
+				echo '<img src="' . $screenshot_url . '" />';
+				echo '</div>';
+			}
+
 			printf(
 				'<div class="bns-theme-details">'
-				. __( '<a href="%5$s">%1$s</a> by %2$s with a rating of %3$s stars last updated on %6$s has been downloaded %4$s times.', 'bns-td' )
+				. __( '<a href="%5$s">%1$s</a> by %2$s (current version %8$s) with an average rating of %3$s stars (by %7$s voters) last updated on %6$s has been downloaded %4$s times.', 'bns-td' )
 				. '</div>',
 				$name,
 				$author,
 				$rating,
 				$count,
 				$download_link,
-				$last_updated
+				$last_updated,
+				$number_of_ratings,
+				$current_version
 			);
+
 		} else {
+
 			_e( 'Are you using a theme from the WordPress Theme repository?', 'bns-td' );
+
 		}
 		/** End if - is count set */
 	}
