@@ -472,19 +472,14 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 				echo '</div>';
 			}
 
-			printf(
-				'<div class="bns-theme-details">'
-				. __( '<a href="%5$s">%1$s</a> by %2$s (current version %8$s) with an average rating of %3$s stars (by %7$s voters) last updated on %6$s has been downloaded %4$s times.', 'bns-td' )
-				. '</div>',
-				$name,
-				$author,
-				$rating,
-				$count,
-				$download_link,
-				$last_updated,
-				$number_of_ratings,
-				$current_version
-			);
+			var_dump($api);
+
+			echo '<br />' . '<br />';
+			echo 'Theme: ' . $name . ' by ' . $author . '<br />';
+			echo 'Last updated: ' . $last_updated . ' (version ' . $current_version . ')<br />';
+			echo 'Average Rating: ' . $rating . ' stars (by ' . $number_of_ratings . ' voters)' . '<br />';
+			echo 'Total downloads: ' . $count . '<br />';
+			echo 'Download your copy <a href="' . $download_link . '">here</a><br />';
 
 		} else {
 
