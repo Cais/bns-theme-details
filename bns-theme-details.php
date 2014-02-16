@@ -126,6 +126,18 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		$use_screenshot_link    = $instance['use_screenshot_link'];
 		$use_download_link      = $instance['use_download_link'];
 
+		$main_options = array(
+			'show_name'              => $instance['show_name'],
+			'show_author'            => $instance['show_author'],
+			'show_rating'            => $instance['show_rating'],
+			'show_number_of_ratings' => $instance['show_number_of_ratings'],
+			'show_last_updated'      => $instance['show_last_updated'],
+			'show_current_version'   => $instance['show_current_version'],
+			'show_downloaded_count'  => $instance['show_downloaded_count'],
+			'use_screenshot_link'    => $instance['use_screenshot_link'],
+			'use_download_link'      => $instance['use_download_link']
+		);
+
 		/** Sanity check - make sure theme slug is not null */
 		if ( null !== $theme_slug ) {
 
@@ -143,7 +155,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 			/** End if - title is null or empty */
 
 			/** Get the number of downloads */
-			$this->theme_api_details( $theme_slug );
+			$this->theme_api_details( $theme_slug, $main_options );
 
 			/** @var $after_widget   string - defined by theme */
 			echo $after_widget;
@@ -409,13 +421,15 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	 * @package    BNS_Theme_Details
 	 * @since      0.1
 	 *
-	 * @param $theme_slug
+	 * @param $theme_slug   - primary data point
+	 * @param $main_options - output options
 	 *
+	 * @uses       BNS_Theme_Details_Widget::display_screenshot
 	 * @uses       themes_api
 	 * @uses       wp_get_theme
 	 * @uses       wp_get_theme->get_template
 	 */
-	function theme_api_details( $theme_slug ) {
+	function theme_api_details( $theme_slug, $main_options ) {
 		/** Pull in the Theme API file */
 		include_once ABSPATH . 'wp-admin/includes/theme.php';
 
@@ -466,15 +480,8 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		/** Sanity check - make sure there is a value for the count */
 		if ( isset( $count ) ) {
 
-			if ( isset( $screenshot_url ) ) {
-				echo '<div class="bnstd-screenshot aligncenter">';
-				echo '<img src="' . $screenshot_url . '" />';
-				echo '</div>';
-			}
+			echo $this->display_screenshot( $main_options, $screenshot_url );
 
-			var_dump($api);
-
-			echo '<br />' . '<br />';
 			echo 'Theme: ' . $name . ' by ' . $author . '<br />';
 			echo 'Last updated: ' . $last_updated . ' (version ' . $current_version . ')<br />';
 			echo 'Average Rating: ' . $rating . ' stars (by ' . $number_of_ratings . ' voters)' . '<br />';
@@ -516,8 +523,51 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 		return $title;
 
+	}    /** End function - widget title */
+
+	/**
+	 * Display Screenshot
+	 * Returns the screenshot URL in its own DIV ... or returns null.
+	 *
+	 * @package        BNS_Theme_Details
+	 * @sub-package    Output
+	 * @since          0.1
+	 *
+	 * @param $main_options
+	 * @param $screenshot_url
+	 *
+	 * @return null|string
+	 */
+	function display_screenshot( $main_options, $screenshot_url ) {
+		/** Check if the screenshot link is to be used */
+		if ( $main_options['use_screenshot_link'] ) {
+
+			/** Make certain there is a screenshot URL set */
+			if ( isset( $screenshot_url ) ) {
+
+				$output = '<div class="bnstd-screenshot aligncenter">';
+				$output .= '<img src="' . $screenshot_url . '" />';
+				$output .= '</div>';
+
+			} else {
+
+				$output = null;
+
+			}
+
+			/** End if - screenshot URL is set */
+
+			return $output;
+
+		} else {
+
+			return null;
+
+		}
+		/** End if - use screenshot link */
+
 	}
-	/** End function - widget title */
+	/** End function - display screenshot */
 
 }
 
