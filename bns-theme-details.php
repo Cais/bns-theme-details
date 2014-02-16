@@ -144,7 +144,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 			}
 			/** End if - title is null or empty */
 
-			/** Get the number of downloads */
+			/** Get the theme details */
 			$this->theme_api_details( $theme_slug, $main_options );
 
 			/** @var $after_widget   string - defined by theme */
