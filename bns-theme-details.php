@@ -431,7 +431,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		$api = themes_api(
 			'theme_information', array(
 				'slug'   => $theme_slug,
-				'fields' => array(
+				/** 'fields' => array(
 					'name'           => true,
 					'author'         => true,
 					'rating'         => true,
@@ -440,7 +440,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 					'downloaded'     => true,
 					'download_link'  => true,
 					'last_updated'   => true
-				)
+				) */
 			)
 		);
 
