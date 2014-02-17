@@ -45,6 +45,9 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  *
  * The license for this software can also likely be found here:
  * http://www.gnu.org/licenses/gpl-2.0.html
+ *
+ * @todo Add hooks where relevant
+ * @todo Finish i18n implementation
  */
 
 /** Thanks to Samuel (Otto42) Wood for the code snippet inspiration. */
