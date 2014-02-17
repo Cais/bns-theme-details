@@ -421,9 +421,12 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	 *
 	 * @uses       BNS_Theme_Details_Widget::display_screenshot
 	 * @uses       BNS_Theme_Details_Widget::display_name_and_author
+	 * @uses       BNS_Theme_Details_Widget::display_updated_and_version
+	 * @uses       BNS_Theme_Details_Widget::display_rating_and_voters
+	 * @uses       BNS_Theme_Details_Widget::display_download_count
+	 * @uses       BNS_Theme_Details_Widget::display_download_link
+	 * @uses       _e
 	 * @uses       themes_api
-	 * @uses       wp_get_theme
-	 * @uses       wp_get_theme->get_template
 	 */
 	function theme_api_details( $theme_slug, $main_options ) {
 		/** Pull in the Theme API file */
@@ -508,6 +511,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	 *
 	 * @param $theme_slug
 	 *
+	 * @uses           __
 	 * @uses           wp_get_theme
 	 * @uses           wp_get_theme->get
 	 * @uses           wp_get_theme->get_template
