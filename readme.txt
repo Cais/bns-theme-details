@@ -18,10 +18,10 @@ This plugin can be used to display the recent download count of a theme, as well
 
 1. Go to 'Plugins' menu under your Dashboard
 2. Click on the 'Add New' link
-3. Search for bns-support
+3. Search for BNS Theme Details
 4. Install.
 5. Activate through the 'Plugins' menu.
-6. Place the BNS Support widget appropriately in the Appearance | Widgets section of the dashboard.
+6. Place the BNS Theme Details widget appropriately in the Appearance > Widgets section of the dashboard; or use the default `[ bns_theme_details ]` shortcode (without the spaces) in a page or post.
 
 Reading this article for further assistance: http://wpfirstaid.com/2009/12/plugin-installation/
 
