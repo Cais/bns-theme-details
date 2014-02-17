@@ -120,14 +120,14 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		$theme_slug = $instance['theme_slug'];
 		/** The Main Options */
 		$main_options = array(
+			'use_screenshot_link'    => $instance['use_screenshot_link'],
 			'show_name'              => $instance['show_name'],
 			'show_author'            => $instance['show_author'],
-			'show_rating'            => $instance['show_rating'],
-			'show_number_of_ratings' => $instance['show_number_of_ratings'],
 			'show_last_updated'      => $instance['show_last_updated'],
 			'show_current_version'   => $instance['show_current_version'],
+			'show_rating'            => $instance['show_rating'],
+			'show_number_of_ratings' => $instance['show_number_of_ratings'],
 			'show_downloaded_count'  => $instance['show_downloaded_count'],
-			'use_screenshot_link'    => $instance['use_screenshot_link'],
 			'use_download_link'      => $instance['use_download_link']
 		);
 
@@ -184,14 +184,14 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		$instance['title']      = strip_tags( $new_instance['title'] );
 		$instance['theme_slug'] = $new_instance['theme_slug'];
 		/** The Main Options */
+		$instance['use_screenshot_link']    = $new_instance['use_screenshot_link'];
 		$instance['show_name']              = $new_instance['show_name'];
 		$instance['show_author']            = $new_instance['show_author'];
-		$instance['show_rating']            = $new_instance['show_rating'];
-		$instance['show_number_of_ratings'] = $new_instance['show_number_of_ratings'];
 		$instance['show_last_updated']      = $new_instance['show_last_updated'];
 		$instance['show_current_version']   = $new_instance['show_current_version'];
+		$instance['show_rating']            = $new_instance['show_rating'];
+		$instance['show_number_of_ratings'] = $new_instance['show_number_of_ratings'];
 		$instance['show_downloaded_count']  = $new_instance['show_downloaded_count'];
-		$instance['use_screenshot_link']    = $new_instance['use_screenshot_link'];
 		$instance['use_download_link']      = $new_instance['use_download_link'];
 
 		return $instance;
@@ -224,14 +224,14 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 			'title'                  => $this->widget_title( $instance['theme_slug'] ),
 			'theme_slug'             => wp_get_theme()->get_template(),
 			/** The Main Options */
+			'use_screenshot_link'    => true,
 			'show_name'              => true,
 			'show_author'            => true,
-			'show_rating'            => true,
-			'show_number_of_ratings' => true,
 			'show_last_updated'      => true,
 			'show_current_version'   => true,
+			'show_rating'            => true,
+			'show_number_of_ratings' => true,
 			'show_downloaded_count'  => true,
-			'use_screenshot_link'    => true,
 			'use_download_link'      => true
 
 		);
@@ -375,14 +375,14 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 					'title'                  => __return_null(),
 					'theme_slug'             => wp_get_theme()->get_template(),
 					/** The Main Options */
+					'use_screenshot_link'    => true,
 					'show_name'              => true,
 					'show_author'            => true,
-					'show_rating'            => true,
-					'show_number_of_ratings' => true,
 					'show_last_updated'      => true,
 					'show_current_version'   => true,
+					'show_rating'            => true,
+					'show_number_of_ratings' => true,
 					'show_downloaded_count'  => true,
-					'use_screenshot_link'    => true,
 					'use_download_link'      => true
 
 				), $atts, 'bns_theme_counter'
@@ -444,11 +444,20 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 			)
 		);
 
+		/** @var string $screenshot_url - link to screenshot */
+		$screenshot_url = $api->screenshot_url;
+
 		/** @var string $name - the theme name */
 		$name = $api->name;
 
 		/** @var string $author - theme author user name */
 		$author = $api->author;
+
+		/** @var string $last_updated - date as a numeric value */
+		$last_updated = $api->last_updated;
+
+		/** @var string $current_version - current version of theme */
+		$current_version = $api->version;
 
 		/** @var integer $rating - rating converted to 5 star system */
 		$rating = $api->rating / 20;
@@ -456,20 +465,11 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		/** @var integer $number_of_ratings */
 		$number_of_ratings = $api->num_ratings;
 
-		/** @var string $screenshot_url - link to screenshot */
-		$screenshot_url = $api->screenshot_url;
-
 		/** @var integer $count - contains total downloads value */
 		$count = $api->downloaded;
 
 		/** @var string $download_link - link to direct download from WordPress */
 		$download_link = $api->download_link;
-
-		/** @var string $last_updated - date as a numeric value */
-		$last_updated = $api->last_updated;
-
-		/** @var string $current_version - current version of theme */
-		$current_version = $api->version;
 
 		/** Sanity check - make sure there is a value for the count */
 		if ( isset( $count ) ) {
@@ -484,7 +484,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 			echo $this->display_download_count( $main_options, $count );
 
-			$this->display_download_link( $main_options, $download_link );
+			echo $this->display_download_link( $main_options, $download_link );
 
 		} else {
 
