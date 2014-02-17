@@ -30,6 +30,7 @@ Q: Why am I not seeing any Theme Details?
 This plugin currently only handles those themes that can be found in the WordPress Theme repository.
 
 == Screenshots ==
+* To be developed
 
 == Other Notes ==
 * Copyright 2014  Edward Caissie  (email : edward.caissie@gmail.com)
