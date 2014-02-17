@@ -482,7 +482,8 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 			echo $this->display_rating_and_voters( $main_options, $rating, $number_of_ratings );
 
-			echo 'Total downloads: ' . $count . '<br />';
+			echo $this->display_download_count( $main_options, $count );
+
 			echo 'Download your copy <a href="' . $download_link . '">here</a><br />';
 
 		} else {
@@ -688,7 +689,8 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 				$output .= null;
 
-			} /** End if - number of ratings is set */
+			}
+			/** End if - number of ratings is set */
 
 			$output .= '</div>';
 
@@ -698,9 +700,42 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 			return null;
 
-		} /** End if - rating is set */
+		}
+		/** End if - rating is set */
 
-	} /** End function - display rating and voters */
+	}
+	/** End function - display rating and voters */
+
+
+	/**
+	 * Display Download Count
+	 * Returns the download count
+	 *
+	 * @package        BNS_Theme_Details
+	 * @sub-package    Output
+	 * @since          0.1
+	 *
+	 * @param $main_options
+	 * @param $count
+	 *
+	 * @return string
+	 */
+	function display_download_count( $main_options, $count ) {
+
+		/** Check if download count is to be shown */
+		if ( $main_options['show_count'] ) {
+
+			return '<div class="bnstd-download-count">Total downloads: ' . $count . '</div>';
+
+		} else {
+
+			return null;
+
+		}
+		/** End if - show count */
+
+	}
+	/** End function - display download count */
 
 }
 
