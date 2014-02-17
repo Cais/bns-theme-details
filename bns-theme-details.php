@@ -46,8 +46,8 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * The license for this software can also likely be found here:
  * http://www.gnu.org/licenses/gpl-2.0.html
  *
- * @todo Add hooks where relevant
- * @todo Finish i18n implementation
+ * @todo           Add hooks where relevant
+ * @todo           Finish i18n implementation
  */
 
 /** Thanks to Samuel (Otto42) Wood for the code snippet inspiration. */
@@ -478,8 +478,12 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 			echo $this->display_name_and_author( $main_options, $name, $author );
 
-			echo 'Last updated: ' . $last_updated . ' (version ' . $current_version . ')<br />';
-			echo 'Average Rating: ' . $rating . ' stars (by ' . $number_of_ratings . ' voters)' . '<br />';
+			echo $this->display_updated_and_version( $main_options, $last_updated, $current_version );
+
+			if ( isset( $rating ) && $main_options['show_rating'] ) {
+				echo 'Average Rating: ' . $rating . ' stars (by ' . $number_of_ratings . ' voters)' . '<br />';
+			}
+
 			echo 'Total downloads: ' . $count . '<br />';
 			echo 'Download your copy <a href="' . $download_link . '">here</a><br />';
 
@@ -615,6 +619,58 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 	}
 	/** End function - display name and author */
+
+
+	/**
+	 * Display Updated and Version
+	 * Returns the last updated date and the current theme version if the are
+	 * set or  null if they are not set
+	 *
+	 * @package        BNS_Theme_Details
+	 * @sub-package    Output
+	 * @since          0.1
+	 *
+	 * @param $main_options
+	 * @param $last_updated
+	 * @param $current_version
+	 *
+	 * @return null|string
+	 */
+	function display_updated_and_version( $main_options, $last_updated, $current_version ) {
+
+		/** Make sure the last updated is set and it is to be shown */
+		if ( isset( $last_updated ) && $main_options['show_last_updated'] ) {
+
+			$output = '<div class="bnstd-last-updated">';
+			$output .= 'Last updated: ' . $last_updated;
+
+			/** Make sure the current version is set and it is to be shown */
+			if ( isset( $current_version ) && $main_options['show_current_version'] ) {
+
+				$output .= ' <span class="bnstd-current-version">(version ' . $current_version . ')</span>';
+
+			}
+			/** End if - current version is set */
+
+			$output .= '</div>';
+
+			return $output;
+
+		} elseif ( ! $main_options['show_last_updated'] && $main_options['show_current_version'] ) {
+
+			$output = '<div class="bnstd-current-version">' . 'Current version: ' . $current_version . '</div>';
+
+			return $output;
+
+		} else {
+
+			return null;
+
+		}
+		/** End if - last updated is set */
+
+	}
+	/** End function - display updated and version */
 
 }
 
