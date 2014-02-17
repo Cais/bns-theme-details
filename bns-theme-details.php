@@ -3,7 +3,7 @@
 Plugin Name: BNS Theme Details
 Plugin URI: http://buynowshop.com/plugins/bns-theme-details
 Description: Displays theme specific details such as download count, last update, author, etc.
-Version: 0.1-alpha
+Version: 0.1-beta
 Text Domain: bns-td
 Author: Edward Caissie
 Author URI: http://edwardcaissie.com/
@@ -253,6 +253,14 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		</p>
 
 		<p>
+			<input class="checkbox" type="checkbox" <?php checked( ( bool ) $instance['use_screenshot_link'], true ); ?>
+				   id="<?php echo $this->get_field_id( 'use_screenshot_link' ); ?>"
+				   name="<?php echo $this->get_field_name( 'use_screenshot_link' ); ?>" />
+			<label
+				for="<?php echo $this->get_field_id( 'use_screenshot_link' ); ?>"><?php _e( 'Use screenshot link?', 'bns-td' ); ?></label>
+		</p>
+
+		<p>
 			<input class="checkbox" type="checkbox" <?php checked( ( bool ) $instance['show_name'], true ); ?>
 				   id="<?php echo $this->get_field_id( 'show_name' ); ?>"
 				   name="<?php echo $this->get_field_name( 'show_name' ); ?>" />
@@ -266,22 +274,6 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 				   name="<?php echo $this->get_field_name( 'show_author' ); ?>" />
 			<label
 				for="<?php echo $this->get_field_id( 'show_author' ); ?>"><?php _e( 'Show author?', 'bns-td' ); ?></label>
-		</p>
-
-		<p>
-			<input class="checkbox" type="checkbox" <?php checked( ( bool ) $instance['show_rating'], true ); ?>
-				   id="<?php echo $this->get_field_id( 'show_rating' ); ?>"
-				   name="<?php echo $this->get_field_name( 'show_rating' ); ?>" />
-			<label
-				for="<?php echo $this->get_field_id( 'show_rating' ); ?>"><?php _e( 'Show rating?', 'bns-td' ); ?></label>
-		</p>
-
-		<p>
-			<input class="checkbox" type="checkbox" <?php checked( ( bool ) $instance['show_number_of_ratings'], true ); ?>
-				   id="<?php echo $this->get_field_id( 'show_number_of_ratings' ); ?>"
-				   name="<?php echo $this->get_field_name( 'show_number_of_ratings' ); ?>" />
-			<label
-				for="<?php echo $this->get_field_id( 'show_number_of_ratings' ); ?>"><?php _e( 'Show number of ratings?', 'bns-td' ); ?></label>
 		</p>
 
 		<p>
@@ -301,19 +293,27 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		</p>
 
 		<p>
+			<input class="checkbox" type="checkbox" <?php checked( ( bool ) $instance['show_rating'], true ); ?>
+				   id="<?php echo $this->get_field_id( 'show_rating' ); ?>"
+				   name="<?php echo $this->get_field_name( 'show_rating' ); ?>" />
+			<label
+				for="<?php echo $this->get_field_id( 'show_rating' ); ?>"><?php _e( 'Show rating?', 'bns-td' ); ?></label>
+		</p>
+
+		<p>
+			<input class="checkbox" type="checkbox" <?php checked( ( bool ) $instance['show_number_of_ratings'], true ); ?>
+				   id="<?php echo $this->get_field_id( 'show_number_of_ratings' ); ?>"
+				   name="<?php echo $this->get_field_name( 'show_number_of_ratings' ); ?>" />
+			<label
+				for="<?php echo $this->get_field_id( 'show_number_of_ratings' ); ?>"><?php _e( 'Show number of ratings?', 'bns-td' ); ?></label>
+		</p>
+
+		<p>
 			<input class="checkbox" type="checkbox" <?php checked( ( bool ) $instance['show_downloaded_count'], true ); ?>
 				   id="<?php echo $this->get_field_id( 'show_downloaded_count' ); ?>"
 				   name="<?php echo $this->get_field_name( 'show_downloaded_count' ); ?>" />
 			<label
 				for="<?php echo $this->get_field_id( 'show_downloaded_count' ); ?>"><?php _e( 'Show downloaded count?', 'bns-td' ); ?></label>
-		</p>
-
-		<p>
-			<input class="checkbox" type="checkbox" <?php checked( ( bool ) $instance['use_screenshot_link'], true ); ?>
-				   id="<?php echo $this->get_field_id( 'use_screenshot_link' ); ?>"
-				   name="<?php echo $this->get_field_name( 'use_screenshot_link' ); ?>" />
-			<label
-				for="<?php echo $this->get_field_id( 'use_screenshot_link' ); ?>"><?php _e( 'Use screenshot link?', 'bns-td' ); ?></label>
 		</p>
 
 		<p>
