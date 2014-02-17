@@ -48,6 +48,8 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  *
  * @todo           Add hooks where relevant
  * @todo           Finish i18n implementation
+ * @todo           Make the download link a button?
+ * @todo           Call theme details to add Author URI and/or Theme URI links?
  */
 
 /** Thanks to Samuel (Otto42) Wood for the code snippet inspiration. */
@@ -430,17 +432,17 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		/** @var object $api - contains theme details */
 		$api = themes_api(
 			'theme_information', array(
-				'slug'   => $theme_slug,
+				'slug' => $theme_slug,
 				/** 'fields' => array(
-					'name'           => true,
-					'author'         => true,
-					'rating'         => true,
-					'num_ratings'    => true,
-					'screenshot_url' => true,
-					'downloaded'     => true,
-					'download_link'  => true,
-					'last_updated'   => true
-				) */
+				 * 'name'           => true,
+				 * 'author'         => true,
+				 * 'rating'         => true,
+				 * 'num_ratings'    => true,
+				 * 'screenshot_url' => true,
+				 * 'downloaded'     => true,
+				 * 'download_link'  => true,
+				 * 'last_updated'   => true
+				 * ) */
 			)
 		);
 
