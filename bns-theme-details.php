@@ -484,7 +484,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 			echo $this->display_download_count( $main_options, $count );
 
-			echo 'Download your copy <a href="' . $download_link . '">here</a><br />';
+			$this->display_download_link( $main_options, $download_link );
 
 		} else {
 
@@ -723,7 +723,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	function display_download_count( $main_options, $count ) {
 
 		/** Check if download count is to be shown */
-		if ( $main_options['show_count'] ) {
+		if ( $main_options['show_downloaded_count'] ) {
 
 			return '<div class="bnstd-download-count">Total downloads: ' . $count . '</div>';
 
@@ -736,6 +736,38 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 	}
 	/** End function - display download count */
+
+
+	/**
+	 * Display Download Link
+	 * Return the download link if it is set or return null if it is not
+	 *
+	 * @package        BNS_Theme_Details
+	 * @sub-package    Output
+	 * @since          0.1
+	 *
+	 * @param $main_options
+	 * @param $download_link
+	 *
+	 * @return null|string
+	 */
+	function display_download_link( $main_options, $download_link ) {
+
+		/** Check if download link is set and if it should be shown */
+		if ( isset( $download_link ) && $main_options['use_download_link'] ) {
+
+			return '<div class="bnstd-download-link">Download your copy <a class="bnstd-download-link-url" href="' . $download_link . '">here</a></div>';
+
+		} else {
+
+			return null;
+
+		}
+		/** End if - download link is set */
+
+	}
+	/** End function - display download link */
+
 
 }
 
