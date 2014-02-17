@@ -480,9 +480,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 			echo $this->display_updated_and_version( $main_options, $last_updated, $current_version );
 
-			if ( isset( $rating ) && $main_options['show_rating'] ) {
-				echo 'Average Rating: ' . $rating . ' stars (by ' . $number_of_ratings . ' voters)' . '<br />';
-			}
+			echo $this->display_rating_and_voters( $main_options, $rating, $number_of_ratings );
 
 			echo 'Total downloads: ' . $count . '<br />';
 			echo 'Download your copy <a href="' . $download_link . '">here</a><br />';
@@ -540,23 +538,12 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	 */
 	function display_screenshot( $main_options, $screenshot_url ) {
 
-		/** Check if the screenshot link is to be used */
-		if ( $main_options['use_screenshot_link'] ) {
+		/** Check if the screenshot link is set and is to be used */
+		if ( isset( $screenshot_url ) && $main_options['use_screenshot_link'] ) {
 
-			/** Make certain there is a screenshot URL set */
-			if ( isset( $screenshot_url ) ) {
-
-				$output = '<div class="bnstd-screenshot aligncenter">';
-				$output .= '<img src="' . $screenshot_url . '" />';
-				$output .= '</div>';
-
-			} else {
-
-				$output = null;
-
-			}
-
-			/** End if - screenshot URL is set */
+			$output = '<div class="bnstd-screenshot aligncenter">';
+			$output .= '<img src="' . $screenshot_url . '" />';
+			$output .= '</div>';
 
 			return $output;
 
@@ -606,9 +593,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 		} elseif ( ! $main_options['show_name'] && $main_options['show_author'] ) {
 
-			$output = '<div class="bnstd-theme-author">' . 'By ' . $author . '</div>';
-
-			return $output;
+			return '<div class="bnstd-theme-author">' . 'By ' . $author . '</div>';
 
 		} else {
 
@@ -658,9 +643,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 		} elseif ( ! $main_options['show_last_updated'] && $main_options['show_current_version'] ) {
 
-			$output = '<div class="bnstd-current-version">' . 'Current version: ' . $current_version . '</div>';
-
-			return $output;
+			return '<div class="bnstd-current-version">' . 'Current version: ' . $current_version . '</div>';
 
 		} else {
 
@@ -671,6 +654,53 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 	}
 	/** End function - display updated and version */
+
+
+	/**
+	 * Display Ratings and Voters
+	 * Return the star rating of the theme and the number of voters if set, or
+	 * retrun null if they are not
+	 *
+	 * @package        BNT_Theme_Details
+	 * @sub-package    Output
+	 * @since          0.1
+	 *
+	 * @param $main_options
+	 * @param $rating
+	 * @param $number_of_ratings
+	 *
+	 * @return null|string
+	 */
+	function display_rating_and_voters( $main_options, $rating, $number_of_ratings ) {
+
+		/** Check if rating is set an if it should be shown */
+		if ( isset( $rating ) && $main_options['show_rating'] ) {
+
+			$output = '<div class="bnstd-rating">';
+			$output .= 'Average Rating: ' . $rating . ' stars';
+
+			/** Check if number of ratings is set and if it should be shown */
+			if ( isset( $number_of_ratings ) && $main_options['show_number_of_ratings'] ) {
+
+				$output .= ' <span class="bnstd-voters">(by ' . $number_of_ratings . ' voters)</span>';
+
+			} else {
+
+				$output .= null;
+
+			} /** End if - number of ratings is set */
+
+			$output .= '</div>';
+
+			return $output;
+
+		} else {
+
+			return null;
+
+		} /** End if - rating is set */
+
+	} /** End function - display rating and voters */
 
 }
 
