@@ -476,8 +476,8 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		/** @var string $download_link - link to direct download from WordPress */
 		$download_link = $api->download_link;
 
-		/** Sanity check - make sure there is a value for the count */
-		if ( isset( $count ) ) {
+		/** Sanity check - make sure there is a value for the name */
+		if ( isset( $name ) ) {
 
 			echo $this->display_screenshot( $main_options, $screenshot_url );
 
@@ -580,7 +580,10 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	 */
 	function display_name_and_author( $main_options, $name, $author ) {
 
-		/** Make sure there is a theme name set and it is to be shown */
+		/**
+		 * Make sure there is a theme name set (redundant but also consistent)
+		 * and it is to be shown
+		 */
 		if ( isset( $name ) && $main_options['show_name'] ) {
 
 			$output = '<div class="bnstd-theme-name">';
@@ -728,8 +731,8 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	 */
 	function display_download_count( $main_options, $count ) {
 
-		/** Check if download count is to be shown */
-		if ( $main_options['show_downloaded_count'] ) {
+		/** Check if the count is set and is to be shown */
+		if ( isset( $count ) && $main_options['show_downloaded_count'] ) {
 
 			return '<div class="bnstd-download-count">Total downloads: ' . $count . '</div>';
 
