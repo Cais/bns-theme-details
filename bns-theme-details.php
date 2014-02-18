@@ -704,9 +704,9 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	 * @param $rating
 	 * @param $number_of_ratings
 	 *
-	 * @uses	__
-	 * @uses	__return_null
-	 * @uses	apply_filters
+	 * @uses           __
+	 * @uses           __return_null
+	 * @uses           apply_filters
 	 *
 	 * @return null|string
 	 */
@@ -756,6 +756,10 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	 * @param $main_options
 	 * @param $count
 	 *
+	 * @uses           __
+	 * @uses           __return_null
+	 * @uses           apply_filters
+	 *
 	 * @return string
 	 */
 	function display_download_count( $main_options, $count ) {
@@ -763,11 +767,13 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		/** Check if the count is set and is to be shown */
 		if ( isset( $count ) && $main_options['show_downloaded_count'] ) {
 
-			return '<div class="bnstd-download-count">Total downloads: ' . $count . '</div>';
+			$output = '<div class="bnstd-download-count">' . sprintf( __( 'Total downloads: %1$s', 'bns-td' ), $count ) . '</div>';
+
+			return apply_filters( 'bnstd_display_download_count', $output );
 
 		} else {
 
-			return null;
+			return apply_filters( 'bnstd_display_download_count', __return_null() );
 
 		}
 		/** End if - show count */
