@@ -3,7 +3,7 @@
 Plugin Name: BNS Theme Details
 Plugin URI: http://buynowshop.com/plugins/bns-theme-details
 Description: Displays theme specific details such as download count, last update, author, etc.
-Version: 0.1-beta
+Version: 0.2
 Text Domain: bns-td
 Author: Edward Caissie
 Author URI: http://edwardcaissie.com/
@@ -22,7 +22,7 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @link           http://buynowshop.com/plugins/bns-theme-details
  * @link           https://github.com/Cais/bns-theme-details
  * @link           http://wordpress.org/extend/plugins/bns-theme-details/
- * @version        0.1
+ * @version        0.2
  * @author         Edward Caissie <edward.caissie@gmail.com>
  * @copyright      Copyright (c) 2014, Edward Caissie
  *
@@ -129,6 +129,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 			'show_current_version'   => $instance['show_current_version'],
 			'show_rating'            => $instance['show_rating'],
 			'show_number_of_ratings' => $instance['show_number_of_ratings'],
+			'show_description'       => $instance['show_description'],
 			'show_downloaded_count'  => $instance['show_downloaded_count'],
 			'use_download_link'      => $instance['use_download_link']
 		);
@@ -195,6 +196,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		$instance['show_current_version']   = $new_instance['show_current_version'];
 		$instance['show_rating']            = $new_instance['show_rating'];
 		$instance['show_number_of_ratings'] = $new_instance['show_number_of_ratings'];
+		$instance['show_description']       = $new_instance['show_description'];
 		$instance['show_downloaded_count']  = $new_instance['show_downloaded_count'];
 		$instance['use_download_link']      = $new_instance['use_download_link'];
 
@@ -223,12 +225,15 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	 * @uses       wp_parse_args
 	 *
 	 * @return  void
+	 *
+	 * @todo Get fancy with the widget title
 	 */
 	function form( $instance ) {
 
 		/** Set up some default widget settings */
 		$defaults = array(
-			'title'                  => $this->widget_title( $instance['theme_slug'] ),
+			'title'	=> __( 'Theme Details', 'bns-td' ),
+			/** 'title'                  => $this->widget_title( $instance['theme_slug'] ), */
 			'theme_slug'             => $this->replace_spaces( wp_get_theme()->get_template() ),
 			/** The Main Options */
 			'use_screenshot_link'    => true,
@@ -238,6 +243,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 			'show_current_version'   => true,
 			'show_rating'            => true,
 			'show_number_of_ratings' => true,
+			'show_description'       => false,
 			'show_downloaded_count'  => true,
 			'use_download_link'      => true
 
@@ -316,6 +322,14 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		</p>
 
 		<p>
+			<input class="checkbox" type="checkbox" <?php checked( ( bool ) $instance['show_description'], true ); ?>
+				   id="<?php echo $this->get_field_id( 'show_description' ); ?>"
+				   name="<?php echo $this->get_field_name( 'show_description' ); ?>" />
+			<label
+				for="<?php echo $this->get_field_id( 'show_description' ); ?>"><?php _e( 'Show description?', 'bns-td' ); ?></label>
+		</p>
+
+		<p>
 			<input class="checkbox" type="checkbox" <?php checked( ( bool ) $instance['show_downloaded_count'], true ); ?>
 				   id="<?php echo $this->get_field_id( 'show_downloaded_count' ); ?>"
 				   name="<?php echo $this->get_field_name( 'show_downloaded_count' ); ?>" />
@@ -389,6 +403,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 					'show_current_version'   => true,
 					'show_rating'            => true,
 					'show_number_of_ratings' => true,
+					'show_description'       => true,
 					'show_downloaded_count'  => true,
 					'use_download_link'      => true
 
@@ -440,17 +455,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		/** @var object $api - contains theme details */
 		$api = themes_api(
 			'theme_information', array(
-				'slug' => $theme_slug,
-				/** 'fields' => array(
-				 * 'name'           => true,
-				 * 'author'         => true,
-				 * 'rating'         => true,
-				 * 'num_ratings'    => true,
-				 * 'screenshot_url' => true,
-				 * 'downloaded'     => true,
-				 * 'download_link'  => true,
-				 * 'last_updated'   => true
-				 * ) */
+				'slug' => $theme_slug
 			)
 		);
 
@@ -475,6 +480,9 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		/** @var integer $number_of_ratings */
 		$number_of_ratings = $api->num_ratings;
 
+		/** @var string $description - theme description */
+		$description = $api->sections['description'];
+
 		/** @var integer $count - contains total downloads value */
 		$count = $api->downloaded;
 
@@ -491,6 +499,9 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 			echo $this->display_updated_and_version( $main_options, $last_updated, $current_version );
 
 			echo $this->display_rating_and_voters( $main_options, $rating, $number_of_ratings );
+
+			echo $this->display_description( $main_options, $description );
+			// echo $description;
 
 			echo $this->display_download_count( $main_options, $count );
 
@@ -779,6 +790,43 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 	}
 	/** End function - display download count */
+
+
+	/**
+	 * Display Description
+	 * Returns the theme description
+	 *
+	 * @package        BNS_Theme_Details
+	 * @sub-package    Output
+	 * @since          0.1
+	 *
+	 * @param $main_options
+	 * @param $description
+	 *
+	 * @uses           __
+	 * @uses           __return_null
+	 * @uses           apply_filters
+	 *
+	 * @return string
+	 */
+	function display_description( $main_options, $description ) {
+
+		/** Check if the count is set and is to be shown */
+		if ( isset( $description ) && $main_options['show_description'] ) {
+
+			$output = '<div class="bnstd-description">' . $description . '</div>';
+
+			return apply_filters( 'bnstd_display_description', $output );
+
+		} else {
+
+			return apply_filters( 'bnstd_display_description', __return_null() );
+
+		}
+		/** End if - show description */
+
+	}
+	/** End function - display description */
 
 
 	/**

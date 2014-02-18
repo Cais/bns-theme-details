@@ -4,7 +4,7 @@ Donate link: http://buynowshop.com/
 Tags: themes, counter, plugin, widget, shortcode, details, download, author, update, rating
 Requires at least: 3.4
 Tested up to: 3.8.1
-Stable tag: 0.1
+Stable tag: 0.2
 License: GNU General Public License v2
 License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
@@ -42,6 +42,7 @@ Shortcode parameters (and their defaults):
 * `show_current_version => true` ... displays the current theme version
 * `show_rating => true` ... displays the current "star" rating of the theme
 * `show_number_of_ratings => true` ... displays the number of ratings the theme has received
+* `show_description => true` ... displays theme description (this is false by default in the widget section)
 * `show_downloaded_count => true` ... displays the total download count
 * `use_download_link => true` ... displays a download link pointing to the current version of the theme in the WordPress Theme repository
 
@@ -78,5 +79,9 @@ This plugin currently only handles those themes that can be found in the WordPre
 Please stay current with your WordPress installation, your active theme, and your plugins.
 
 == Changelog ==
+= 0.2 =
+* Released February 2014
+* Added theme description to output
+
 = 0.1 =
 * Initial release - February 2014
