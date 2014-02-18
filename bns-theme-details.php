@@ -530,9 +530,9 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 			? wp_get_theme()->get_template()
 			: wp_get_theme( $theme_slug )->get( 'Name' );
 
-		$title = sprintf( __( '%1$s Download Counter', 'bns-td' ), $theme_name );
+		$title = '<span class="bnstd-widget-title">' . sprintf( __( '%1$s Download Counter', 'bns-td' ), $theme_name ) . '</span>';
 
-		return $title;
+		return apply_filters( 'bnstd_widget_title', $title );
 
 	}    /** End function - widget title */
 
@@ -558,11 +558,11 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 			$output .= '<img src="' . $screenshot_url . '" />';
 			$output .= '</div>';
 
-			return $output;
+			return apply_filters( 'bnstd_display_screenshot', $output );
 
 		} else {
 
-			return null;
+			return apply_filters( 'bnstd_display_screenshot', __return_null() );
 
 		}
 		/** End if - use screenshot link */
@@ -582,6 +582,10 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	 * @param $name
 	 * @param $author
 	 *
+	 * @uses	__
+	 * @uses	__return_null
+	 * @uses	apply_filters
+	 *
 	 * @return null|string
 	 */
 	function display_name_and_author( $main_options, $name, $author ) {
@@ -592,28 +596,32 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		 */
 		if ( isset( $name ) && $main_options['show_name'] ) {
 
-			$output = '<div class="bnstd-theme-name">';
-			$output .= 'Theme: ' . $name;
+			$output = '<div class="bnstd-theme-name">' . sprintf( __( 'Theme: %1$s', 'bns-td' ), $name ) . '</div>';
 
 			/** Make sure there is an author name set and it is to be shown */
 			if ( isset( $author ) && $main_options['show_author'] ) {
 
-				$output .= ' by ' . '<span class="bnstd-theme-author">' . $author . '</span>';
+				$output = '<div class="bnstd-theme-name-and-author">'
+						  . sprintf( __( 'Theme: %1$s by %2$s', 'bns-td' ), '<span class="bnstd-theme-name">' . $name . '</span>', '<span class="bnstd-theme-author">' . $author . '</span>' )
+						  . '</div>';
+
+				return apply_filters( 'bnstd_display_name_and_author', $output );
 
 			}
+
 			/** End if - author name is set */
 
-			$output .= '</div>';
-
-			return $output;
+			return apply_filters( 'bnstd_display_name_only', $output );
 
 		} elseif ( ! $main_options['show_name'] && $main_options['show_author'] ) {
 
-			return '<div class="bnstd-theme-author">' . 'By ' . $author . '</div>';
+			$output = '<div class="bnstd-theme-author">' . sprintf( __( 'By %1$s', 'bns-td' ), $author ) . '</div>';
+
+			return apply_filters( 'bnstd_display_author_only', $output );
 
 		} else {
 
-			return null;
+			return apply_filters( 'bnstd_display_name_and_author', __return_null() );
 
 		}
 		/** End if - theme name is set */
