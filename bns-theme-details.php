@@ -660,8 +660,11 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 			if ( isset( $current_version ) && $main_options['show_current_version'] ) {
 
 				$output = '<div class="bnstd-updated-and-version">'
-						  . sprintf( __( 'Last updated: %1$s %2$s', 'bns-td' ), '<span class="bnstd-updated">' . $last_updated . '</span>', '<span class="bnstd-version">' . sprintf( __( '(version %1$s)', 'bns-td' ), $current_version ) . '</span>' )
-						  . '</div>';
+						  . sprintf(
+						__( 'Last updated: %1$s %2$s', 'bns-td' ),
+						'<span class="bnstd-updated">' . $last_updated . '</span>',
+						'<span class="bnstd-version">' . sprintf( __( '(version %1$s)', 'bns-td' ), $current_version ) . '</span>'
+					) . '</div>';
 
 				return apply_filters( 'bnstd_display_updated_and_version', $output );
 
@@ -701,6 +704,10 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	 * @param $rating
 	 * @param $number_of_ratings
 	 *
+	 * @uses	__
+	 * @uses	__return_null
+	 * @uses	apply_filters
+	 *
 	 * @return null|string
 	 */
 	function display_rating_and_voters( $main_options, $rating, $number_of_ratings ) {
@@ -708,28 +715,28 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		/** Check if rating is set an if it should be shown */
 		if ( isset( $rating ) && $main_options['show_rating'] ) {
 
-			$output = '<div class="bnstd-rating">';
-			$output .= 'Average Rating: ' . $rating . ' stars';
+			$output = '<div class="bnstd-rating">' . sprintf( __( 'Average Rating: %1$s stars', 'bns-td' ), $rating ) . '</div>';
 
 			/** Check if number of ratings is set and if it should be shown */
 			if ( isset( $number_of_ratings ) && $main_options['show_number_of_ratings'] ) {
 
-				$output .= ' <span class="bnstd-voters">(by ' . $number_of_ratings . ' voters)</span>';
+				$output = '<div class="bnstd-rating-and-voters">' . sprintf(
+						__( 'Average Rating: %1$s stars %2$s', 'bns-td' ),
+						'<span class="bnstd-rating">' . $rating . '</span>',
+						'<span class="bnstd-voters">' . sprintf( __( '(by %1$s voters)', 'bns-td' ), $number_of_ratings ) . '</span>'
+					) . '</div>';
 
-			} else {
-
-				$output .= null;
+				return apply_filters( 'bnstd_display_rating_and_voters', $output );
 
 			}
+
 			/** End if - number of ratings is set */
 
-			$output .= '</div>';
-
-			return $output;
+			return apply_filters( 'bnstd_display_rating_only', $output );
 
 		} else {
 
-			return null;
+			return apply_filters( 'bnstd_display_rating_and_voters', __return_null() );
 
 		}
 		/** End if - rating is set */
