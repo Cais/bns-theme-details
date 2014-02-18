@@ -793,6 +793,10 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	 * @param $main_options
 	 * @param $download_link
 	 *
+	 * @uses           __
+	 * @uses           __return_null
+	 * @uses           apply_filters
+	 *
 	 * @return null|string
 	 */
 	function display_download_link( $main_options, $download_link ) {
@@ -800,11 +804,14 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		/** Check if download link is set and if it should be shown */
 		if ( isset( $download_link ) && $main_options['use_download_link'] ) {
 
-			return '<div class="bnstd-download-link">Download your copy <a class="bnstd-download-link-url" href="' . $download_link . '">here</a></div>';
+			$output = '<div class="bnstd-download-link">'
+					  . sprintf( __( 'Download your copy %1$s', 'bns-td' ), '<a class="bnstd-download-link-url" href="' . $download_link . '">' . __( 'here', 'bns-td' ) . '</a>' ) . '</div>';
+
+			return apply_filters( 'bnstd_display_download_link', $output );
 
 		} else {
 
-			return null;
+			return apply_filters( 'bnstd_display_download_link', __return_null() );
 
 		}
 		/** End if - download link is set */
