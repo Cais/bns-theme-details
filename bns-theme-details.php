@@ -50,7 +50,6 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @todo           Finish i18n implementation
  * @todo           Make the download link a button?
  * @todo           Call theme details to add Author URI and/or Theme URI links?
- * @todo           Add more details to `readme.txt` about shortcode usage
  */
 
 /** Thanks to Samuel (Otto42) Wood for the code snippet inspiration. */

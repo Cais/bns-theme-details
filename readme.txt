@@ -23,10 +23,31 @@ This plugin can be used to display the recent download count of a theme, as well
 5. Activate through the 'Plugins' menu.
 6. Place the BNS Theme Details widget appropriately in the Appearance > Widgets section of the dashboard; or use the default `[ bns_theme_details ]` shortcode (without the spaces) in a page or post.
 
-Reading this article for further assistance: http://wpfirstaid.com/2009/12/plugin-installation/
+Reading this article for further assistance with plugin installation: http://wpfirstaid.com/2009/12/plugin-installation/
+
+/** ---- */
+
+Shortcode Usage:
+
+* `[ bns_theme_details ]` - this is the default (less the spaces) which will display the current active theme on the site (provided it is hosted on the WordPress repository).
+
+Shortcode parameters (and their defaults):
+
+* `title => __return_null()` ... returns nothing
+* `theme_slug => wp_get_theme()->get_template()` ... uses the current theme
+* `use_screenshot_link => true` ... displays main screenshot
+* `show_name => true` ... displays the theme name
+* `show_author => true` ... displays the author name
+* `show_last_updated => true` ... displays when the theme was last updated
+* `show_current_version => true` ... displays the current theme version
+* `show_rating => true` ... displays the current "star" rating of the theme
+* `show_number_of_ratings => true` ... displays the number of ratings the theme has received
+* `show_downloaded_count => true` ... displays the total download count
+* `use_download_link => true` ... displays a download link pointing to the current version of the theme in the WordPress Theme repository
 
 == Frequently Asked Questions ==
 Q: Why am I not seeing any Theme Details?
+
 This plugin currently only handles those themes that can be found in the WordPress Theme repository.
 
 == Screenshots ==
@@ -57,5 +78,5 @@ This plugin currently only handles those themes that can be found in the WordPre
 Please stay current with your WordPress installation, your active theme, and your plugins.
 
 == Changelog ==
-= 1.0 =
+= 0.1 =
 * Initial release - February 2014
