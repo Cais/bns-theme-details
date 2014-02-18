@@ -582,9 +582,9 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	 * @param $name
 	 * @param $author
 	 *
-	 * @uses	__
-	 * @uses	__return_null
-	 * @uses	apply_filters
+	 * @uses           __
+	 * @uses           __return_null
+	 * @uses           apply_filters
 	 *
 	 * @return null|string
 	 */
@@ -643,6 +643,10 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	 * @param $last_updated
 	 * @param $current_version
 	 *
+	 * @uses           __
+	 * @uses           __return_null
+	 * @uses           apply_filters
+	 *
 	 * @return null|string
 	 */
 	function display_updated_and_version( $main_options, $last_updated, $current_version ) {
@@ -650,28 +654,32 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		/** Make sure the last updated is set and it is to be shown */
 		if ( isset( $last_updated ) && $main_options['show_last_updated'] ) {
 
-			$output = '<div class="bnstd-last-updated">';
-			$output .= 'Last updated: ' . $last_updated;
+			$output = '<div class="bnstd-updated">' . sprintf( __( 'Last updated: %1$s', 'bns-td' ), $last_updated ) . '</div';
 
 			/** Make sure the current version is set and it is to be shown */
 			if ( isset( $current_version ) && $main_options['show_current_version'] ) {
 
-				$output .= ' <span class="bnstd-current-version">(version ' . $current_version . ')</span>';
+				$output = '<div class="bnstd-updated-and-version">'
+						  . sprintf( __( 'Last updated: %1$s %2$s', 'bns-td' ), '<span class="bnstd-updated">' . $last_updated . '</span>', '<span class="bnstd-version">' . sprintf( __( '(version %1$s)', 'bns-td' ), $current_version ) . '</span>' )
+						  . '</div>';
+
+				return apply_filters( 'bnstd_display_updated_and_version', $output );
 
 			}
+
 			/** End if - current version is set */
 
-			$output .= '</div>';
-
-			return $output;
+			return apply_filters( 'bnstd_display_updated_only', $output );
 
 		} elseif ( ! $main_options['show_last_updated'] && $main_options['show_current_version'] ) {
 
-			return '<div class="bnstd-current-version">' . 'Current version: ' . $current_version . '</div>';
+			$output = '<div class="bnstd-version">' . sprintf( __( 'Current version: %1$s', 'bns-td' ), $current_version ) . '</div>';
+
+			return apply_filters( 'bnstd_display_version_only', $output );
 
 		} else {
 
-			return null;
+			return apply_filters( 'bnstd_display_updated_and_version', __return_null() );
 
 		}
 		/** End if - last updated is set */
