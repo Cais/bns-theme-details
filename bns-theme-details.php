@@ -109,6 +109,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	 * @param    $args
 	 * @param    $instance
 	 *
+	 * @uses       BNS_Theme_Details::replace_spaces
 	 * @uses       BNS_Theme_Counter::theme_api_details
 	 * @uses       BNS_Theme_Counter::widget_title
 	 * @uses       apply_filters
@@ -119,7 +120,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		extract( $args );
 		/** User-selected settings */
 		$title      = apply_filters( 'widget_title', $instance['title'] );
-		$theme_slug = $instance['theme_slug'];
+		$theme_slug = $this->replace_spaces( $instance['theme_slug'] );
 		/** The Main Options */
 		$main_options = array(
 			'use_screenshot_link'    => $instance['use_screenshot_link'],
@@ -176,6 +177,8 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	 * @param   $new_instance
 	 * @param   $old_instance
 	 *
+	 * @uses       BNS_Theme_Details::replace_spaces
+	 *
 	 * @return  array - widget options and settings
 	 */
 	function update( $new_instance, $old_instance ) {
@@ -184,7 +187,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 		/** Strip tags (if needed) and update the widget settings */
 		$instance['title']      = strip_tags( $new_instance['title'] );
-		$instance['theme_slug'] = $new_instance['theme_slug'];
+		$instance['theme_slug'] = $this->replace_spaces( $new_instance['theme_slug'] );
 		/** The Main Options */
 		$instance['use_screenshot_link']    = $new_instance['use_screenshot_link'];
 		$instance['show_name']              = $new_instance['show_name'];
@@ -211,11 +214,14 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	 *
 	 * @param   $instance
 	 *
+	 * @uses       BNS_Theme_Details::replace_spaces
+	 * @uses       BNS_Theme_Details::widget_title
 	 * @uses       _e
 	 * @uses       get_field_id
 	 * @uses       get_field_name
 	 * @uses       wp_get_theme
 	 * @uses       wp_get_theme->get_template
+	 * @uses       wp_parse_args
 	 *
 	 * @return  void
 	 */
@@ -224,7 +230,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		/** Set up some default widget settings */
 		$defaults = array(
 			'title'                  => $this->widget_title( $instance['theme_slug'] ),
-			'theme_slug'             => wp_get_theme()->get_template(),
+			'theme_slug'             => $this->replace_spaces( wp_get_theme()->get_template() ),
 			/** The Main Options */
 			'use_screenshot_link'    => true,
 			'show_name'              => true,
@@ -776,6 +782,40 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 	}
 	/** End function - display download link */
+
+
+	/**
+	 * Replace Spaces
+	 * Takes a string, changes it to lower case and replaces the spaces with a
+	 * single hyphen by default
+	 *
+	 * @package        BNS_Theme_Details
+	 * @sub-package    Output
+	 * @since          0.1
+	 *
+	 * @internal       Compliments of the Opus Primus framework theme by Cais.
+	 * @link           http://opusprimus.com
+	 *
+	 * @param   string $text
+	 * @param   string $replacement
+	 *
+	 * @return  string
+	 */
+	function replace_spaces( $text, $replacement = '-' ) {
+		/** @var $new_text - initial text set to lower case */
+		$new_text = esc_attr( strtolower( $text ) );
+		/** replace whitespace with a single space */
+		$new_text = preg_replace( '/\s\s+/', ' ', $new_text );
+		/** replace space with a hyphen to create nice CSS classes */
+		$new_text = preg_replace( '/\\040/', $replacement, $new_text );
+
+		/** Return the string with spaces replaced by the replacement variable */
+
+		return $new_text;
+
+	}
+
+	/** End function - replace spaces */
 
 
 }

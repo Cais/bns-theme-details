@@ -34,7 +34,7 @@ Shortcode Usage:
 Shortcode parameters (and their defaults):
 
 * `title => __return_null()` ... returns nothing
-* `theme_slug => wp_get_theme()->get_template()` ... uses the current theme
+* `theme_slug => wp_get_theme()->get_template()` ... uses the current theme; the theme name can also be used in place of its slug provided they are similar
 * `use_screenshot_link => true` ... displays main screenshot
 * `show_name => true` ... displays the theme name
 * `show_author => true` ... displays the author name
