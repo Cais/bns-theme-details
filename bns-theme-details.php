@@ -46,8 +46,6 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * The license for this software can also likely be found here:
  * http://www.gnu.org/licenses/gpl-2.0.html
  *
- * @todo           Add hooks where relevant
- * @todo           Finish i18n implementation
  * @todo           Make the download link a button?
  * @todo           Call theme details to add Author URI and/or Theme URI links?
  */
@@ -76,12 +74,13 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		 * @package              BNS_Theme_Details
 		 * @since                0.1
 		 *
-		 * @internal             Version 2.8 being used in reference to __return_null()
+		 * @internal             Version 3.4 being used in reference to __return_null()
 		 *
 		 * @uses        (GLOBAL) wp_version
+		 * @uses                 __
 		 */
 		global $wp_version;
-		$exit_message = __( 'BNS Theme Details requires WordPress version 3.4 or newer. <a href="http://codex.wordpress.org/Upgrading_WordPress">Please Update!</a>', 'bns-td' );
+		$exit_message = sprintf( __( 'BNS Theme Details requires WordPress version 3.4 or newer. %1$s', 'bns-td' ), '<a href="http://codex.wordpress.org/Upgrading_WordPress">' . __( 'Please Update!', 'bns-td' ) . '</a>' );
 		if ( version_compare( $wp_version, "3.4", "<" ) ) {
 			exit( $exit_message );
 		}
