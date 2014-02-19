@@ -4,7 +4,7 @@ Donate link: http://buynowshop.com/
 Tags: themes, counter, plugin, widget, shortcode, details, download, author, update, rating
 Requires at least: 3.4
 Tested up to: 3.8.1
-Stable tag: 0.2
+Stable tag: 0.3
 License: GNU General Public License v2
 License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
@@ -79,6 +79,10 @@ This plugin currently only handles those themes that can be found in the WordPre
 Please stay current with your WordPress installation, your active theme, and your plugins.
 
 == Changelog ==
+= 0.3 =
+* Released February 2014
+* Correct shortcode parameters not recognizing boolean checks
+
 = 0.2 =
 * Released February 2014
 * Added theme description to output

@@ -3,7 +3,7 @@
 Plugin Name: BNS Theme Details
 Plugin URI: http://buynowshop.com/plugins/bns-theme-details
 Description: Displays theme specific details such as download count, last update, author, etc.
-Version: 0.2
+Version: 0.3
 Text Domain: bns-td
 Author: Edward Caissie
 Author URI: http://edwardcaissie.com/
@@ -22,7 +22,7 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @link           http://buynowshop.com/plugins/bns-theme-details
  * @link           https://github.com/Cais/bns-theme-details
  * @link           http://wordpress.org/extend/plugins/bns-theme-details/
- * @version        0.2
+ * @version        0.3
  * @author         Edward Caissie <edward.caissie@gmail.com>
  * @copyright      Copyright (c) 2014, Edward Caissie
  *
@@ -46,6 +46,7 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * The license for this software can also likely be found here:
  * http://www.gnu.org/licenses/gpl-2.0.html
  *
+ * @todo           Find a better boolean check than what is currently being used
  * @todo           Make the download link a button?
  * @todo           Call theme details to add Author URI and/or Theme URI links?
  */
@@ -121,18 +122,16 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		$title      = apply_filters( 'widget_title', $instance['title'] );
 		$theme_slug = $this->replace_spaces( $instance['theme_slug'] );
 		/** The Main Options */
-		$main_options = array(
-			'use_screenshot_link'    => $instance['use_screenshot_link'],
-			'show_name'              => $instance['show_name'],
-			'show_author'            => $instance['show_author'],
-			'show_last_updated'      => $instance['show_last_updated'],
-			'show_current_version'   => $instance['show_current_version'],
-			'show_rating'            => $instance['show_rating'],
-			'show_number_of_ratings' => $instance['show_number_of_ratings'],
-			'show_description'       => $instance['show_description'],
-			'show_downloaded_count'  => $instance['show_downloaded_count'],
-			'use_download_link'      => $instance['use_download_link']
-		);
+		$main_options['use_screenshot_link']    = $instance['use_screenshot_link'];
+		$main_options['show_name']              = $instance['show_name'];
+		$main_options['show_author']            = $instance['show_author'];
+		$main_options['show_last_updated']      = $instance['show_last_updated'];
+		$main_options['show_current_version']   = $instance['show_current_version'];
+		$main_options['show_rating']            = $instance['show_rating'];
+		$main_options['show_number_of_ratings'] = $instance['show_number_of_ratings'];
+		$main_options['show_description']       = $instance['show_description'];
+		$main_options['show_downloaded_count']  = $instance['show_downloaded_count'];
+		$main_options['use_download_link']      = $instance['use_download_link'];
 
 		/** Sanity check - make sure theme slug is not null */
 		if ( null !== $theme_slug ) {
@@ -226,13 +225,13 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	 *
 	 * @return  void
 	 *
-	 * @todo Get fancy with the widget title
+	 * @todo       Get fancy with the widget title
 	 */
 	function form( $instance ) {
 
 		/** Set up some default widget settings */
 		$defaults = array(
-			'title'	=> __( 'Theme Details', 'bns-td' ),
+			'title'                  => __( 'Theme Details', 'bns-td' ),
 			/** 'title'                  => $this->widget_title( $instance['theme_slug'] ), */
 			'theme_slug'             => $this->replace_spaces( wp_get_theme()->get_template() ),
 			/** The Main Options */
@@ -562,7 +561,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	function display_screenshot( $main_options, $screenshot_url ) {
 
 		/** Check if the screenshot link is set and is to be used */
-		if ( isset( $screenshot_url ) && $main_options['use_screenshot_link'] ) {
+		if ( isset( $screenshot_url ) && ( true === $main_options['use_screenshot_link'] ) ) {
 
 			$output = '<div class="bnstd-screenshot aligncenter">';
 			$output .= '<img src="' . $screenshot_url . '" />';
@@ -604,12 +603,12 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		 * Make sure there is a theme name set (redundant but also consistent)
 		 * and it is to be shown
 		 */
-		if ( isset( $name ) && $main_options['show_name'] ) {
+		if ( isset( $name ) && ( true === $main_options['show_name'] ) ) {
 
 			$output = '<div class="bnstd-theme-name">' . sprintf( __( 'Theme: %1$s', 'bns-td' ), $name ) . '</div>';
 
 			/** Make sure there is an author name set and it is to be shown */
-			if ( isset( $author ) && $main_options['show_author'] ) {
+			if ( isset( $author ) && ( true === $main_options['show_author'] ) ) {
 
 				$output = '<div class="bnstd-theme-name-and-author">'
 						  . sprintf( __( 'Theme: %1$s by %2$s', 'bns-td' ), '<span class="bnstd-theme-name">' . $name . '</span>', '<span class="bnstd-theme-author">' . $author . '</span>' )
@@ -623,7 +622,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 			return apply_filters( 'bnstd_display_name_only', $output );
 
-		} elseif ( ! $main_options['show_name'] && $main_options['show_author'] ) {
+		} elseif ( ! ( true === $main_options['show_name'] ) && ( true === $main_options['show_author'] ) ) {
 
 			$output = '<div class="bnstd-theme-author">' . sprintf( __( 'By %1$s', 'bns-td' ), $author ) . '</div>';
 
@@ -662,12 +661,12 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	function display_updated_and_version( $main_options, $last_updated, $current_version ) {
 
 		/** Make sure the last updated is set and it is to be shown */
-		if ( isset( $last_updated ) && $main_options['show_last_updated'] ) {
+		if ( isset( $last_updated ) && ( true === $main_options['show_last_updated'] ) ) {
 
 			$output = '<div class="bnstd-updated">' . sprintf( __( 'Last updated: %1$s', 'bns-td' ), $last_updated ) . '</div';
 
 			/** Make sure the current version is set and it is to be shown */
-			if ( isset( $current_version ) && $main_options['show_current_version'] ) {
+			if ( isset( $current_version ) && ( true === $main_options['show_current_version'] ) ) {
 
 				$output = '<div class="bnstd-updated-and-version">'
 						  . sprintf(
@@ -684,7 +683,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 			return apply_filters( 'bnstd_display_updated_only', $output );
 
-		} elseif ( ! $main_options['show_last_updated'] && $main_options['show_current_version'] ) {
+		} elseif ( ! ( true === $main_options['show_last_updated'] ) && ( true === $main_options['show_current_version'] ) ) {
 
 			$output = '<div class="bnstd-version">' . sprintf( __( 'Current version: %1$s', 'bns-td' ), $current_version ) . '</div>';
 
@@ -723,12 +722,12 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	function display_rating_and_voters( $main_options, $rating, $number_of_ratings ) {
 
 		/** Check if rating is set an if it should be shown */
-		if ( isset( $rating ) && $main_options['show_rating'] ) {
+		if ( isset( $rating ) && ( true === $main_options['show_rating'] ) ) {
 
 			$output = '<div class="bnstd-rating">' . sprintf( __( 'Average Rating: %1$s stars', 'bns-td' ), $rating ) . '</div>';
 
 			/** Check if number of ratings is set and if it should be shown */
-			if ( isset( $number_of_ratings ) && $main_options['show_number_of_ratings'] ) {
+			if ( isset( $number_of_ratings ) && ( true === $main_options['show_number_of_ratings'] ) ) {
 
 				$output = '<div class="bnstd-rating-and-voters">' . sprintf(
 						__( 'Average Rating: %1$s stars %2$s', 'bns-td' ),
@@ -775,7 +774,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	function display_download_count( $main_options, $count ) {
 
 		/** Check if the count is set and is to be shown */
-		if ( isset( $count ) && $main_options['show_downloaded_count'] ) {
+		if ( isset( $count ) && ( true === $main_options['show_downloaded_count'] ) ) {
 
 			$output = '<div class="bnstd-download-count">' . sprintf( __( 'Total downloads: %1$s', 'bns-td' ), $count ) . '</div>';
 
@@ -812,7 +811,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	function display_description( $main_options, $description ) {
 
 		/** Check if the count is set and is to be shown */
-		if ( isset( $description ) && $main_options['show_description'] ) {
+		if ( isset( $description ) && ( true === $main_options['show_description'] ) ) {
 
 			$output = '<div class="bnstd-description">' . $description . '</div>';
 
@@ -849,7 +848,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	function display_download_link( $main_options, $download_link ) {
 
 		/** Check if download link is set and if it should be shown */
-		if ( isset( $download_link ) && $main_options['use_download_link'] ) {
+		if ( isset( $download_link ) && ( true === $main_options['use_download_link'] ) ) {
 
 			$output = '<div class="bnstd-download-link">'
 					  . sprintf( __( 'Download your copy %1$s', 'bns-td' ), '<a class="bnstd-download-link-url" href="' . $download_link . '">' . __( 'here', 'bns-td' ) . '</a>' ) . '</div>';
