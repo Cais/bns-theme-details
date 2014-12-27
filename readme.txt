@@ -2,7 +2,7 @@
 Contributors: cais
 Donate link: http://buynowshop.com/
 Tags: themes, counter, plugin, widget, shortcode, details, download, author, update, rating
-Requires at least: 3.4
+Requires at least: 3.6
 Tested up to: 4.1
 Stable tag: 0.4
 License: GNU General Public License v2
@@ -82,7 +82,10 @@ Please stay current with your WordPress installation, your active theme, and you
 = 0.4 =
 * Released ...
 * Added "in plugin update message" functionality
+* Updated `exit_message` if WordPress version is too low
+* Corrected shortcode filter reference to indicate `bns_theme_details`
 * Modified `textdomain` to use full plugin slug `bns-theme-details`
+* Updated required version to 3.6 in reference to the shortcode filter option
 * Wrapped `<img />` tag in a `<p />` tag for better display compatibility
 
 = 0.3 =

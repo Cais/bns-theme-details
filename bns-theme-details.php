@@ -3,7 +3,7 @@
 Plugin Name: BNS Theme Details
 Plugin URI: http://buynowshop.com/plugins/bns-theme-details
 Description: Displays theme specific details such as download count, last update, author, etc.
-Version: 0.1
+Version: 0.4
 Text Domain: bns-theme-details
 Author: Edward Caissie
 Author URI: http://edwardcaissie.com/
@@ -55,6 +55,25 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 /** Thanks to Samuel (Otto42) Wood for the code snippet inspiration. */
 class BNS_Theme_Details_Widget extends WP_Widget {
 
+	/**
+	 * Constructor
+	 *
+	 * The main show ...
+	 *
+	 * @package BNS_Theme_Details
+	 * @since   0.1
+	 *
+	 * @uses    BNS_Theme_Details_Widget::WP_Widget (factory)
+	 * @uses    BNS_Theme_Details_Widget::load_bnstd_widget
+	 * @uses    BNS_Theme_Details_Widget::bns_theme_details_shortcode
+	 * @uses    (GLOBAL) wp_version
+	 * @uses    __
+	 * @uses    add_action
+	 *
+	 * @version 0.4
+	 * @date    December 27, 2014
+	 * Updated `exit_message` if WordPress version is too low
+	 */
 	function __construct() {
 
 		/** Widget settings */
@@ -73,17 +92,14 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		/**
 		 * Check installed WordPress version for compatibility
 		 *
-		 * @package              BNS_Theme_Details
-		 * @since                0.1
-		 *
-		 * @internal             Version 3.4 being used in reference to __return_null()
-		 *
-		 * @uses                 (GLOBAL) wp_version
-		 * @uses                 __
+		 * @internal    Version 3.6 in reference to `shortcode_atts` filter option
+		 * @link        https://developer.wordpress.org/reference/functions/shortcode_atts/
 		 */
 		global $wp_version;
-		$exit_message = sprintf( __( 'BNS Theme Details requires WordPress version 3.4 or newer. %1$s', 'bns-theme-details' ), '<a href="http://codex.wordpress.org/Upgrading_WordPress">' . __( 'Please Update!', 'bns-td' ) . '</a>' );
-		if ( version_compare( $wp_version, "3.4", "<" ) ) {
+		$exit_message = sprintf( __( 'BNS Theme Details requires WordPress version 3.6 or newer. %1$s', 'bns-theme-details' ), '<a href="http://codex.wordpress.org/Upgrading_WordPress">' . __( 'Please Update!', 'bns-theme-details' ) . '</a>' );
+		$exit_message .= '<br />';
+		$exit_message .= sprintf( __( 'In reference to the shortcode default attributes filter. See %1$s.', 'bns-theme-details' ), '<a href="https://developer.wordpress.org/reference/functions/shortcode_atts/">' . __( 'this link', 'bns-theme-details' ) . '</a>' );
+		if ( version_compare( $wp_version, "3.6", "<" ) ) {
 			exit( $exit_message );
 		}
 		/** End if = version compare */
@@ -133,6 +149,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		$main_options['show_description']       = $instance['show_description'];
 		$main_options['show_downloaded_count']  = $instance['show_downloaded_count'];
 		$main_options['use_download_link']      = $instance['use_download_link'];
+		$main_options['show_changelog']         = $instance['show_changelog'];
 
 		/** Sanity check - make sure theme slug is not null */
 		if ( null !== $theme_slug ) {
@@ -199,6 +216,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		$instance['show_description']       = $new_instance['show_description'];
 		$instance['show_downloaded_count']  = $new_instance['show_downloaded_count'];
 		$instance['use_download_link']      = $new_instance['use_download_link'];
+		$instance['show_changelog']         = $new_instance['show_changelog'];
 
 		return $instance;
 
@@ -245,7 +263,8 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 			'show_number_of_ratings' => true,
 			'show_description'       => false,
 			'show_downloaded_count'  => true,
-			'use_download_link'      => true
+			'use_download_link'      => true,
+			'show_changelog'         => false
 
 		);
 		$instance = wp_parse_args( ( array ) $instance, $defaults ); ?>
@@ -345,6 +364,14 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 				for="<?php echo $this->get_field_id( 'use_download_link' ); ?>"><?php _e( 'Use download link?', 'bns-theme-details' ); ?></label>
 		</p>
 
+		<p>
+			<input class="checkbox" type="checkbox" <?php checked( ( bool ) $instance['show_changelog'], true ); ?>
+			       id="<?php echo $this->get_field_id( 'show_changelog' ); ?>"
+			       name="<?php echo $this->get_field_name( 'show_changelog' ); ?>" />
+			<label
+				for="<?php echo $this->get_field_id( 'show_changelog' ); ?>"><?php _e( 'Show the changelog?', 'bns-theme-details' ); ?></label>
+		</p>
+
 	<?php
 	}
 
@@ -382,6 +409,10 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	 * @uses       wp_get_theme->get_template
 	 *
 	 * @return  string
+	 *
+	 * @version    0.4
+	 * @date       December 27, 2014
+	 * Corrected filter reference to indicate `bns_theme_details`
 	 */
 	function bns_theme_details_shortcode( $atts ) {
 
@@ -405,9 +436,10 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 					'show_number_of_ratings' => true,
 					'show_description'       => true,
 					'show_downloaded_count'  => true,
-					'use_download_link'      => true
+					'use_download_link'      => true,
+					'show_changelog'         => true
 
-				), $atts, 'bns_theme_counter'
+				), $atts, 'bns_theme_details'
 			),
 			$args = array(
 				/** clear variables defined by theme for widgets */
@@ -439,12 +471,12 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	 * @param $theme_slug   - primary data point
 	 * @param $main_options - output options
 	 *
-	 * @uses       BNS_Theme_Details_Widget::display_screenshot
-	 * @uses       BNS_Theme_Details_Widget::display_name_and_author
-	 * @uses       BNS_Theme_Details_Widget::display_updated_and_version
-	 * @uses       BNS_Theme_Details_Widget::display_rating_and_voters
 	 * @uses       BNS_Theme_Details_Widget::display_download_count
 	 * @uses       BNS_Theme_Details_Widget::display_download_link
+	 * @uses       BNS_Theme_Details_Widget::display_name_and_author
+	 * @uses       BNS_Theme_Details_Widget::display_rating_and_voters
+	 * @uses       BNS_Theme_Details_Widget::display_screenshot
+	 * @uses       BNS_Theme_Details_Widget::display_updated_and_version
 	 * @uses       _e
 	 * @uses       themes_api
 	 */
@@ -501,11 +533,12 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 			echo $this->display_rating_and_voters( $main_options, $rating, $number_of_ratings );
 
 			echo $this->display_description( $main_options, $description );
-			// echo $description;
 
 			echo $this->display_download_count( $main_options, $count );
 
 			echo $this->display_download_link( $main_options, $download_link );
+
+			echo $this->changelog( $main_options, $current_version, $name );
 
 		} else {
 
@@ -528,6 +561,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	 * @param $theme_slug
 	 *
 	 * @uses           __
+	 * @uses           apply_filters
 	 * @uses           wp_get_theme
 	 * @uses           wp_get_theme->get
 	 * @uses           wp_get_theme->get_template
@@ -554,13 +588,16 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	 * @sub-package    Output
 	 * @since          0.1
 	 *
+	 * @uses           __return_null
+	 * @uses           apply_filters
+	 *
 	 * @param $main_options
 	 * @param $screenshot_url
 	 *
 	 * @return null|string
 	 *
-	 * @version 0.4
-	 * @date    December 27, 2014
+	 * @version        0.4
+	 * @date           December 27, 2014
 	 * Wrapped `<img />` tag in a `<p />` tag for better display compatibility
 	 */
 	function display_screenshot( $main_options, $screenshot_url ) {
@@ -868,7 +905,45 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		/** End if - download link is set */
 
 	}
+
 	/** End function - display download link */
+
+
+	/**
+	 * Changelog
+	 *
+	 * @package BNS_Theme_Details
+	 * @since   0.4
+	 *
+	 * @uses    BNS_Theme_Details_Widget::replace_spaces
+	 * @uses    apply_filters
+	 * @uses    wp_remote_get
+	 *
+	 * @param $main_options
+	 * @param $current_version
+	 * @param $name
+	 *
+	 * @return mixed|null|void
+	 */
+	function changelog( $main_options, $current_version, $name ) {
+
+		/** Check if download link is set and if it should be shown */
+		if ( true === $main_options['show_changelog'] ) {
+
+			$theme_slug     = $this->replace_spaces( wp_get_theme($name)->get_template() );
+
+			$changelog_path = wp_remote_get( 'https://themes.svn.wordpress.org/' . $theme_slug . '/' . $current_version . '/changelog.txt' );
+
+			$output = 'Changelog:';
+			$output .= ! is_wp_error( $changelog_path ) && ! empty( $changelog_path['body'] ) ? $changelog_path['body'] : null;
+
+			return apply_filters( 'bnstd_changelog_output', $output );
+
+		}
+
+		return null;
+
+	}
 
 
 	/**
@@ -1018,15 +1093,17 @@ function BNS_Theme_Details_in_plugin_update_message( $args ) {
 		/** End if - response message exists */
 
 		/** Set transient - minimize calls to WordPress */
-		// set_transient( $transient_name, $upgrade_notice, DAY_IN_SECONDS );
+		set_transient( $transient_name, $upgrade_notice, DAY_IN_SECONDS );
 
 	}
 	/** End if - transient check */
 
 	echo $upgrade_notice;
 
-} /** End function - in plugin update message */
+}
+
+/** End function - in plugin update message */
 
 
 /** Add Plugin Update Message */
-add_action( 'in_plugin_update_message-' . plugin_basename( __FILE__ ),  'BNS_Theme_Details_in_plugin_update_message' );
+add_action( 'in_plugin_update_message-' . plugin_basename( __FILE__ ), 'BNS_Theme_Details_in_plugin_update_message' );
