@@ -81,8 +81,9 @@ Please stay current with your WordPress installation, your active theme, and you
 == Changelog ==
 = 0.4 =
 * Released ...
-* Modified `textdomain` to use full plugin slug `bns-theme-details`
 * Added "in plugin update message" functionality
+* Modified `textdomain` to use full plugin slug `bns-theme-details`
+* Wrapped `<img />` tag in a `<p />` tag for better display compatibility
 
 = 0.3 =
 * Released February 2014

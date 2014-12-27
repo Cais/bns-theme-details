@@ -558,6 +558,10 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	 * @param $screenshot_url
 	 *
 	 * @return null|string
+	 *
+	 * @version 0.4
+	 * @date    December 27, 2014
+	 * Wrapped `<img />` tag in a `<p />` tag for better display compatibility
 	 */
 	function display_screenshot( $main_options, $screenshot_url ) {
 
@@ -565,7 +569,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		if ( isset( $screenshot_url ) && ( true === $main_options['use_screenshot_link'] ) ) {
 
 			$output = '<div class="bnstd-screenshot aligncenter">';
-			$output .= '<img src="' . $screenshot_url . '" />';
+			$output .= '<p><img src="' . $screenshot_url . '" /></p>';
 			$output .= '</div>';
 
 			return apply_filters( 'bnstd_display_screenshot', $output );
