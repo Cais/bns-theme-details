@@ -927,17 +927,71 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	 */
 	function changelog( $main_options, $current_version, $name ) {
 
-		/** Check if download link is set and if it should be shown */
 		if ( true === $main_options['show_changelog'] ) {
 
-			$theme_slug     = $this->replace_spaces( wp_get_theme($name)->get_template() );
+			echo sprintf( '<div class="bnstd-changelog-title">%1$s</div>', __( 'Changelog:', 'bns-theme-details' ) );
 
+			$theme_slug     = $this->replace_spaces( wp_get_theme( $name )->get_template() );
 			$changelog_path = wp_remote_get( 'https://themes.svn.wordpress.org/' . $theme_slug . '/' . $current_version . '/changelog.txt' );
 
-			$output = 'Changelog:';
-			$output .= ! is_wp_error( $changelog_path ) && ! empty( $changelog_path['body'] ) ? $changelog_path['body'] : null;
+			$output  = ! is_wp_error( $changelog_path ) && ! empty( $changelog_path['body'] ) ? $changelog_path['body'] : null;
+			$changes = (array) preg_split( '~[\r\n]+~', $output );
 
-			return apply_filters( 'bnstd_changelog_output', $output );
+			/** @var string $changelog_lines - begin output string */
+			$changelog_lines = '<div class="bnstd_changelog">';
+
+			$ul = false;
+
+			foreach ( $changes as $index => $line ) {
+
+				if ( preg_match( '~^=\s*(.*)\s*=$~i', $line ) ) {
+
+					if ( $ul ) {
+						$changelog_lines .= '</ul><div style="clear: left;"></div>';
+					}
+					/** End if - unordered list created */
+
+					// $changelog_lines .= '<hr/>';
+
+				}
+				/** End if - non-blank line */
+
+				/** @var string $return_value - body of message */
+				$return_value = '';
+
+				if ( preg_match( '~^\s*\*\s*~', $line ) ) {
+
+					if ( ! $ul ) {
+						$return_value = '<ul">';
+						$ul           = true;
+					}
+					/** End if - unordered list not started */
+
+					$line = preg_replace( '~^\s*\*\s*~', '', htmlspecialchars( $line ) );
+					$return_value .= '<li style=" ' . ( $index % 2 == 0 ? 'clear: left;' : '' ) . '">' . $line . '</li>';
+
+				} else {
+
+					if ( $ul ) {
+						$return_value = '</ul><div style="clear: left;"></div>';
+						$return_value .= '<p>' . $line . '</p>';
+						$ul = false;
+					} else {
+						$return_value .= '<p>' . $line . '</p>';
+					}
+					/** End if - unordered list started */
+
+				}
+				/** End if - non-blank line */
+
+				$changelog_lines .= wp_kses_post( preg_replace( '~\[([^\]]*)\]\(([^\)]*)\)~', '<a href="${2}">${1}</a>', $return_value ) );
+
+			}
+			/** End foreach - line parsing */
+
+			$changelog_lines .= '</div>';
+
+			return apply_filters( 'bnstd_changelog_output', $changelog_lines );
 
 		}
 

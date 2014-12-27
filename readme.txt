@@ -82,6 +82,7 @@ Please stay current with your WordPress installation, your active theme, and you
 = 0.4 =
 * Released ...
 * Added "in plugin update message" functionality
+* Added changelog to output (requires theme to use `changelog.txt` file)
 * Updated `exit_message` if WordPress version is too low
 * Corrected shortcode filter reference to indicate `bns_theme_details`
 * Modified `textdomain` to use full plugin slug `bns-theme-details`
