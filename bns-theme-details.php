@@ -3,8 +3,8 @@
 Plugin Name: BNS Theme Details
 Plugin URI: http://buynowshop.com/plugins/bns-theme-details
 Description: Displays theme specific details such as download count, last update, author, etc.
-Version: 0.3
-Text Domain: bns-td
+Version: 0.4
+Text Domain: bns-theme-details
 Author: Edward Caissie
 Author URI: http://edwardcaissie.com/
 License: GNU General Public License v2
@@ -13,6 +13,7 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
 /**
  * BNS Theme Details
+ *
  * This plugin can be used to display the recent download count of a theme, as
  * well as various other details such as the author and when it was last
  * updated. It also includes a link to the WordPress Theme repository if it
@@ -22,7 +23,7 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @link           http://buynowshop.com/plugins/bns-theme-details
  * @link           https://github.com/Cais/bns-theme-details
  * @link           http://wordpress.org/extend/plugins/bns-theme-details/
- * @version        0.3
+ * @version        0.4
  * @author         Edward Caissie <edward.caissie@gmail.com>
  * @copyright      Copyright (c) 2014, Edward Caissie
  *
@@ -59,7 +60,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		/** Widget settings */
 		$widget_ops = array(
 			'classname'   => 'bns-theme-details',
-			'description' => __( 'Displays theme specific details such as download count, last update, author, etc.', 'bns-td' )
+			'description' => __( 'Displays theme specific details such as download count, last update, author, etc.', 'bns-theme-details' )
 		);
 		/** Widget control settings */
 		$control_ops = array(
@@ -77,11 +78,11 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		 *
 		 * @internal             Version 3.4 being used in reference to __return_null()
 		 *
-		 * @uses        (GLOBAL) wp_version
+		 * @uses                 (GLOBAL) wp_version
 		 * @uses                 __
 		 */
 		global $wp_version;
-		$exit_message = sprintf( __( 'BNS Theme Details requires WordPress version 3.4 or newer. %1$s', 'bns-td' ), '<a href="http://codex.wordpress.org/Upgrading_WordPress">' . __( 'Please Update!', 'bns-td' ) . '</a>' );
+		$exit_message = sprintf( __( 'BNS Theme Details requires WordPress version 3.4 or newer. %1$s', 'bns-theme-details' ), '<a href="http://codex.wordpress.org/Upgrading_WordPress">' . __( 'Please Update!', 'bns-td' ) . '</a>' );
 		if ( version_compare( $wp_version, "3.4", "<" ) ) {
 			exit( $exit_message );
 		}
@@ -231,7 +232,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 		/** Set up some default widget settings */
 		$defaults = array(
-			'title'                  => __( 'Theme Details', 'bns-td' ),
+			'title'                  => __( 'Theme Details', 'bns-theme-details' ),
 			/** 'title'                  => $this->widget_title( $instance['theme_slug'] ), */
 			'theme_slug'             => $this->replace_spaces( wp_get_theme()->get_template() ),
 			/** The Main Options */
@@ -250,98 +251,98 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		$instance = wp_parse_args( ( array ) $instance, $defaults ); ?>
 
 		<p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'bns-td' ); ?></label>
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'bns-theme-details' ); ?></label>
 			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>"
-				   name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo $instance['title']; ?>"
-				   style="width:100%;" />
+			       name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo $instance['title']; ?>"
+			       style="width:100%;" />
 		</p>
 
 		<p>
 			<label
-				for="<?php echo $this->get_field_id( 'theme_slug' ); ?>"><?php _e( 'Theme Slug', 'bns-td' ); ?></label>
+				for="<?php echo $this->get_field_id( 'theme_slug' ); ?>"><?php _e( 'Theme Slug', 'bns-theme-details' ); ?></label>
 			<input class="widefat" id="<?php echo $this->get_field_id( 'theme_slug' ); ?>"
-				   name="<?php echo $this->get_field_name( 'theme_slug' ); ?>"
-				   value="<?php echo $instance['theme_slug']; ?>" style="width:100%;" />
+			       name="<?php echo $this->get_field_name( 'theme_slug' ); ?>"
+			       value="<?php echo $instance['theme_slug']; ?>" style="width:100%;" />
 		</p>
 
 		<p>
 			<input class="checkbox" type="checkbox" <?php checked( ( bool ) $instance['use_screenshot_link'], true ); ?>
-				   id="<?php echo $this->get_field_id( 'use_screenshot_link' ); ?>"
-				   name="<?php echo $this->get_field_name( 'use_screenshot_link' ); ?>" />
+			       id="<?php echo $this->get_field_id( 'use_screenshot_link' ); ?>"
+			       name="<?php echo $this->get_field_name( 'use_screenshot_link' ); ?>" />
 			<label
-				for="<?php echo $this->get_field_id( 'use_screenshot_link' ); ?>"><?php _e( 'Use screenshot link?', 'bns-td' ); ?></label>
+				for="<?php echo $this->get_field_id( 'use_screenshot_link' ); ?>"><?php _e( 'Use screenshot link?', 'bns-theme-details' ); ?></label>
 		</p>
 
 		<p>
 			<input class="checkbox" type="checkbox" <?php checked( ( bool ) $instance['show_name'], true ); ?>
-				   id="<?php echo $this->get_field_id( 'show_name' ); ?>"
-				   name="<?php echo $this->get_field_name( 'show_name' ); ?>" />
+			       id="<?php echo $this->get_field_id( 'show_name' ); ?>"
+			       name="<?php echo $this->get_field_name( 'show_name' ); ?>" />
 			<label
-				for="<?php echo $this->get_field_id( 'show_name' ); ?>"><?php _e( 'Show name?', 'bns-td' ); ?></label>
+				for="<?php echo $this->get_field_id( 'show_name' ); ?>"><?php _e( 'Show name?', 'bns-theme-details' ); ?></label>
 		</p>
 
 		<p>
 			<input class="checkbox" type="checkbox" <?php checked( ( bool ) $instance['show_author'], true ); ?>
-				   id="<?php echo $this->get_field_id( 'show_author' ); ?>"
-				   name="<?php echo $this->get_field_name( 'show_author' ); ?>" />
+			       id="<?php echo $this->get_field_id( 'show_author' ); ?>"
+			       name="<?php echo $this->get_field_name( 'show_author' ); ?>" />
 			<label
-				for="<?php echo $this->get_field_id( 'show_author' ); ?>"><?php _e( 'Show author?', 'bns-td' ); ?></label>
+				for="<?php echo $this->get_field_id( 'show_author' ); ?>"><?php _e( 'Show author?', 'bns-theme-details' ); ?></label>
 		</p>
 
 		<p>
 			<input class="checkbox" type="checkbox" <?php checked( ( bool ) $instance['show_last_updated'], true ); ?>
-				   id="<?php echo $this->get_field_id( 'show_last_updated' ); ?>"
-				   name="<?php echo $this->get_field_name( 'show_last_updated' ); ?>" />
+			       id="<?php echo $this->get_field_id( 'show_last_updated' ); ?>"
+			       name="<?php echo $this->get_field_name( 'show_last_updated' ); ?>" />
 			<label
-				for="<?php echo $this->get_field_id( 'show_last_updated' ); ?>"><?php _e( 'Show last updated?', 'bns-td' ); ?></label>
+				for="<?php echo $this->get_field_id( 'show_last_updated' ); ?>"><?php _e( 'Show last updated?', 'bns-theme-details' ); ?></label>
 		</p>
 
 		<p>
 			<input class="checkbox" type="checkbox" <?php checked( ( bool ) $instance['show_current_version'], true ); ?>
-				   id="<?php echo $this->get_field_id( 'show_current_version' ); ?>"
-				   name="<?php echo $this->get_field_name( 'show_current_version' ); ?>" />
+			       id="<?php echo $this->get_field_id( 'show_current_version' ); ?>"
+			       name="<?php echo $this->get_field_name( 'show_current_version' ); ?>" />
 			<label
-				for="<?php echo $this->get_field_id( 'show_current_version' ); ?>"><?php _e( 'Show current version?', 'bns-td' ); ?></label>
+				for="<?php echo $this->get_field_id( 'show_current_version' ); ?>"><?php _e( 'Show current version?', 'bns-theme-details' ); ?></label>
 		</p>
 
 		<p>
 			<input class="checkbox" type="checkbox" <?php checked( ( bool ) $instance['show_rating'], true ); ?>
-				   id="<?php echo $this->get_field_id( 'show_rating' ); ?>"
-				   name="<?php echo $this->get_field_name( 'show_rating' ); ?>" />
+			       id="<?php echo $this->get_field_id( 'show_rating' ); ?>"
+			       name="<?php echo $this->get_field_name( 'show_rating' ); ?>" />
 			<label
-				for="<?php echo $this->get_field_id( 'show_rating' ); ?>"><?php _e( 'Show rating?', 'bns-td' ); ?></label>
+				for="<?php echo $this->get_field_id( 'show_rating' ); ?>"><?php _e( 'Show rating?', 'bns-theme-details' ); ?></label>
 		</p>
 
 		<p>
 			<input class="checkbox" type="checkbox" <?php checked( ( bool ) $instance['show_number_of_ratings'], true ); ?>
-				   id="<?php echo $this->get_field_id( 'show_number_of_ratings' ); ?>"
-				   name="<?php echo $this->get_field_name( 'show_number_of_ratings' ); ?>" />
+			       id="<?php echo $this->get_field_id( 'show_number_of_ratings' ); ?>"
+			       name="<?php echo $this->get_field_name( 'show_number_of_ratings' ); ?>" />
 			<label
-				for="<?php echo $this->get_field_id( 'show_number_of_ratings' ); ?>"><?php _e( 'Show number of ratings?', 'bns-td' ); ?></label>
+				for="<?php echo $this->get_field_id( 'show_number_of_ratings' ); ?>"><?php _e( 'Show number of ratings?', 'bns-theme-details' ); ?></label>
 		</p>
 
 		<p>
 			<input class="checkbox" type="checkbox" <?php checked( ( bool ) $instance['show_description'], true ); ?>
-				   id="<?php echo $this->get_field_id( 'show_description' ); ?>"
-				   name="<?php echo $this->get_field_name( 'show_description' ); ?>" />
+			       id="<?php echo $this->get_field_id( 'show_description' ); ?>"
+			       name="<?php echo $this->get_field_name( 'show_description' ); ?>" />
 			<label
-				for="<?php echo $this->get_field_id( 'show_description' ); ?>"><?php _e( 'Show description?', 'bns-td' ); ?></label>
+				for="<?php echo $this->get_field_id( 'show_description' ); ?>"><?php _e( 'Show description?', 'bns-theme-details' ); ?></label>
 		</p>
 
 		<p>
 			<input class="checkbox" type="checkbox" <?php checked( ( bool ) $instance['show_downloaded_count'], true ); ?>
-				   id="<?php echo $this->get_field_id( 'show_downloaded_count' ); ?>"
-				   name="<?php echo $this->get_field_name( 'show_downloaded_count' ); ?>" />
+			       id="<?php echo $this->get_field_id( 'show_downloaded_count' ); ?>"
+			       name="<?php echo $this->get_field_name( 'show_downloaded_count' ); ?>" />
 			<label
-				for="<?php echo $this->get_field_id( 'show_downloaded_count' ); ?>"><?php _e( 'Show downloaded count?', 'bns-td' ); ?></label>
+				for="<?php echo $this->get_field_id( 'show_downloaded_count' ); ?>"><?php _e( 'Show downloaded count?', 'bns-theme-details' ); ?></label>
 		</p>
 
 		<p>
 			<input class="checkbox" type="checkbox" <?php checked( ( bool ) $instance['use_download_link'], true ); ?>
-				   id="<?php echo $this->get_field_id( 'use_download_link' ); ?>"
-				   name="<?php echo $this->get_field_name( 'use_download_link' ); ?>" />
+			       id="<?php echo $this->get_field_id( 'use_download_link' ); ?>"
+			       name="<?php echo $this->get_field_name( 'use_download_link' ); ?>" />
 			<label
-				for="<?php echo $this->get_field_id( 'use_download_link' ); ?>"><?php _e( 'Use download link?', 'bns-td' ); ?></label>
+				for="<?php echo $this->get_field_id( 'use_download_link' ); ?>"><?php _e( 'Use download link?', 'bns-theme-details' ); ?></label>
 		</p>
 
 	<?php
@@ -508,7 +509,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 		} else {
 
-			_e( 'Are you using a theme from the WordPress Theme repository?', 'bns-td' );
+			_e( 'Are you using a theme from the WordPress Theme repository?', 'bns-theme-details' );
 
 		}
 		/** End if - is count set */
@@ -539,7 +540,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 			? wp_get_theme()->get_template()
 			: wp_get_theme( $theme_slug )->get( 'Name' );
 
-		$title = '<span class="bnstd-widget-title">' . sprintf( __( '%1$s Download Counter', 'bns-td' ), $theme_name ) . '</span>';
+		$title = '<span class="bnstd-widget-title">' . sprintf( __( '%1$s Download Counter', 'bns-theme-details' ), $theme_name ) . '</span>';
 
 		return apply_filters( 'bnstd_widget_title', $title );
 
@@ -605,14 +606,14 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		 */
 		if ( isset( $name ) && ( true === $main_options['show_name'] ) ) {
 
-			$output = '<div class="bnstd-theme-name">' . sprintf( __( 'Theme: %1$s', 'bns-td' ), $name ) . '</div>';
+			$output = '<div class="bnstd-theme-name">' . sprintf( __( 'Theme: %1$s', 'bns-theme-details' ), $name ) . '</div>';
 
 			/** Make sure there is an author name set and it is to be shown */
 			if ( isset( $author ) && ( true === $main_options['show_author'] ) ) {
 
 				$output = '<div class="bnstd-theme-name-and-author">'
-						  . sprintf( __( 'Theme: %1$s by %2$s', 'bns-td' ), '<span class="bnstd-theme-name">' . $name . '</span>', '<span class="bnstd-theme-author">' . $author . '</span>' )
-						  . '</div>';
+				          . sprintf( __( 'Theme: %1$s by %2$s', 'bns-theme-details' ), '<span class="bnstd-theme-name">' . $name . '</span>', '<span class="bnstd-theme-author">' . $author . '</span>' )
+				          . '</div>';
 
 				return apply_filters( 'bnstd_display_name_and_author', $output );
 
@@ -624,7 +625,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 		} elseif ( ! ( true === $main_options['show_name'] ) && ( true === $main_options['show_author'] ) ) {
 
-			$output = '<div class="bnstd-theme-author">' . sprintf( __( 'By %1$s', 'bns-td' ), $author ) . '</div>';
+			$output = '<div class="bnstd-theme-author">' . sprintf( __( 'By %1$s', 'bns-theme-details' ), $author ) . '</div>';
 
 			return apply_filters( 'bnstd_display_author_only', $output );
 
@@ -663,16 +664,16 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		/** Make sure the last updated is set and it is to be shown */
 		if ( isset( $last_updated ) && ( true === $main_options['show_last_updated'] ) ) {
 
-			$output = '<div class="bnstd-updated">' . sprintf( __( 'Last updated: %1$s', 'bns-td' ), $last_updated ) . '</div';
+			$output = '<div class="bnstd-updated">' . sprintf( __( 'Last updated: %1$s', 'bns-theme-details' ), $last_updated ) . '</div>';
 
 			/** Make sure the current version is set and it is to be shown */
 			if ( isset( $current_version ) && ( true === $main_options['show_current_version'] ) ) {
 
 				$output = '<div class="bnstd-updated-and-version">'
-						  . sprintf(
+				          . sprintf(
 						__( 'Last updated: %1$s %2$s', 'bns-td' ),
 						'<span class="bnstd-updated">' . $last_updated . '</span>',
-						'<span class="bnstd-version">' . sprintf( __( '(version %1$s)', 'bns-td' ), $current_version ) . '</span>'
+						'<span class="bnstd-version">' . sprintf( __( '(version %1$s)', 'bns-theme-details' ), $current_version ) . '</span>'
 					) . '</div>';
 
 				return apply_filters( 'bnstd_display_updated_and_version', $output );
@@ -685,7 +686,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 		} elseif ( ! ( true === $main_options['show_last_updated'] ) && ( true === $main_options['show_current_version'] ) ) {
 
-			$output = '<div class="bnstd-version">' . sprintf( __( 'Current version: %1$s', 'bns-td' ), $current_version ) . '</div>';
+			$output = '<div class="bnstd-version">' . sprintf( __( 'Current version: %1$s', 'bns-theme-details' ), $current_version ) . '</div>';
 
 			return apply_filters( 'bnstd_display_version_only', $output );
 
@@ -724,15 +725,15 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		/** Check if rating is set an if it should be shown */
 		if ( isset( $rating ) && ( true === $main_options['show_rating'] ) ) {
 
-			$output = '<div class="bnstd-rating">' . sprintf( __( 'Average Rating: %1$s stars', 'bns-td' ), $rating ) . '</div>';
+			$output = '<div class="bnstd-rating">' . sprintf( __( 'Average Rating: %1$s stars', 'bns-theme-details' ), $rating ) . '</div>';
 
 			/** Check if number of ratings is set and if it should be shown */
 			if ( isset( $number_of_ratings ) && ( true === $main_options['show_number_of_ratings'] ) ) {
 
 				$output = '<div class="bnstd-rating-and-voters">' . sprintf(
-						__( 'Average Rating: %1$s stars %2$s', 'bns-td' ),
+						__( 'Average Rating: %1$s stars %2$s', 'bns-theme-details' ),
 						'<span class="bnstd-rating">' . $rating . '</span>',
-						'<span class="bnstd-voters">' . sprintf( __( '(by %1$s voters)', 'bns-td' ), $number_of_ratings ) . '</span>'
+						'<span class="bnstd-voters">' . sprintf( __( '(by %1$s voters)', 'bns-theme-details' ), $number_of_ratings ) . '</span>'
 					) . '</div>';
 
 				return apply_filters( 'bnstd_display_rating_and_voters', $output );
@@ -776,7 +777,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		/** Check if the count is set and is to be shown */
 		if ( isset( $count ) && ( true === $main_options['show_downloaded_count'] ) ) {
 
-			$output = '<div class="bnstd-download-count">' . sprintf( __( 'Total downloads: %1$s', 'bns-td' ), $count ) . '</div>';
+			$output = '<div class="bnstd-download-count">' . sprintf( __( 'Total downloads: %1$s', 'bns-theme-details' ), $count ) . '</div>';
 
 			return apply_filters( 'bnstd_display_download_count', $output );
 
@@ -851,7 +852,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		if ( isset( $download_link ) && ( true === $main_options['use_download_link'] ) ) {
 
 			$output = '<div class="bnstd-download-link">'
-					  . sprintf( __( 'Download your copy %1$s', 'bns-td' ), '<a class="bnstd-download-link-url" href="' . $download_link . '">' . __( 'here', 'bns-td' ) . '</a>' ) . '</div>';
+			          . sprintf( __( 'Download your copy %1$s', 'bns-theme-details' ), '<a class="bnstd-download-link-url" href="' . $download_link . '">' . __( 'here', 'bns-td' ) . '</a>' ) . '</div>';
 
 			return apply_filters( 'bnstd_display_download_link', $output );
 
