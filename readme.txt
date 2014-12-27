@@ -82,6 +82,7 @@ Please stay current with your WordPress installation, your active theme, and you
 = 0.4 =
 * Released ...
 * Modified `textdomain` to use full plugin slug `bns-theme-details`
+* Added "in plugin update message" functionality
 
 = 0.3 =
 * Released February 2014

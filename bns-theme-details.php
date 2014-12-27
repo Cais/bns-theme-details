@@ -3,7 +3,7 @@
 Plugin Name: BNS Theme Details
 Plugin URI: http://buynowshop.com/plugins/bns-theme-details
 Description: Displays theme specific details such as download count, last update, author, etc.
-Version: 0.4
+Version: 0.1
 Text Domain: bns-theme-details
 Author: Edward Caissie
 Author URI: http://edwardcaissie.com/
@@ -907,3 +907,122 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 /** @var object $bns_td - create a new instance of the class */
 $bns_td = new BNS_Theme_Details_Widget();
+
+
+/**
+ * BNS Theme Details In Plugin Update Message
+ *
+ * @package BNS_Theme_Details
+ * @since   0.4
+ *
+ * @uses    get_transient
+ * @uses    is_wp_error
+ * @uses    set_transient
+ * @uses    wp_kses_post
+ * @uses    wp_remote_get
+ *
+ * @param $args
+ */
+function BNS_Theme_Details_in_plugin_update_message( $args ) {
+
+	require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
+	$bnstd_data = get_plugin_data( __FILE__ );
+
+	$transient_name = 'bnstd_upgrade_notice_' . $args['Version'];
+	if ( false === ( $upgrade_notice = get_transient( $transient_name ) ) ) {
+
+		/** @var string $response - get the readme.txt file from WordPress */
+		$response = wp_remote_get( 'https://plugins.svn.wordpress.org/bns-theme-details/trunk/readme.txt' );
+
+		if ( ! is_wp_error( $response ) && ! empty( $response['body'] ) ) {
+			$matches = null;
+		}
+		$regexp         = '~==\s*Changelog\s*==\s*=\s*(.*)\s*=(.*)(=\s*' . preg_quote( $bnstd_data['Version'] ) . '\s*=|$)~Uis';
+		$upgrade_notice = '';
+
+		if ( preg_match( $regexp, $response['body'], $matches ) ) {
+			$version = trim( $matches[1] );
+			$notices = (array) preg_split( '~[\r\n]+~', trim( $matches[2] ) );
+
+			if ( version_compare( $bnstd_data['Version'], $version, '<' ) ) {
+
+				/** @var string $upgrade_notice - start building message (inline styles) */
+				$upgrade_notice = '<style type="text/css">
+							.bnstd_plugin_upgrade_notice { padding-top: 20px; }
+							.bnstd_plugin_upgrade_notice ul { width: 50%; list-style: disc; margin-left: 20px; margin-top: 0; }
+							.bnstd_plugin_upgrade_notice li { margin: 0; }
+						</style>';
+
+				/** @var string $upgrade_notice - start building message (begin block) */
+				$upgrade_notice .= '<div class="bnstd_plugin_upgrade_notice">';
+
+				$ul = false;
+
+				foreach ( $notices as $index => $line ) {
+
+					if ( preg_match( '~^=\s*(.*)\s*=$~i', $line ) ) {
+
+						if ( $ul ) {
+							$upgrade_notice .= '</ul><div style="clear: left;"></div>';
+						}
+						/** End if - unordered list created */
+
+						$upgrade_notice .= '<hr/>';
+
+					}
+					/** End if - non-blank line */
+
+					/** @var string $return_value - body of message */
+					$return_value = '';
+
+					if ( preg_match( '~^\s*\*\s*~', $line ) ) {
+
+						if ( ! $ul ) {
+							$return_value = '<ul">';
+							$ul           = true;
+						}
+						/** End if - unordered list not started */
+
+						$line = preg_replace( '~^\s*\*\s*~', '', htmlspecialchars( $line ) );
+						$return_value .= '<li style=" ' . ( $index % 2 == 0 ? 'clear: left;' : '' ) . '">' . $line . '</li>';
+
+					} else {
+
+						if ( $ul ) {
+							$return_value = '</ul><div style="clear: left;"></div>';
+							$return_value .= '<p>' . $line . '</p>';
+							$ul = false;
+						} else {
+							$return_value .= '<p>' . $line . '</p>';
+						}
+						/** End if - unordered list started */
+
+					}
+					/** End if - non-blank line */
+
+					$upgrade_notice .= wp_kses_post( preg_replace( '~\[([^\]]*)\]\(([^\)]*)\)~', '<a href="${2}">${1}</a>', $return_value ) );
+
+				}
+				/** End foreach - line parsing */
+
+				$upgrade_notice .= '</div>';
+
+			}
+			/** End if - version compare */
+
+		}
+		/** End if - response message exists */
+
+		/** Set transient - minimize calls to WordPress */
+		// set_transient( $transient_name, $upgrade_notice, DAY_IN_SECONDS );
+
+	}
+	/** End if - transient check */
+
+	echo $upgrade_notice;
+
+} /** End function - in plugin update message */
+
+
+/** Add Plugin Update Message */
+add_action( 'in_plugin_update_message-' . plugin_basename( __FILE__ ),  'BNS_Theme_Details_in_plugin_update_message' );
