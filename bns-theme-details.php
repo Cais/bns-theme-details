@@ -240,15 +240,12 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	 * @uses       wp_parse_args
 	 *
 	 * @return  void
-	 *
-	 * @todo       Get fancy with the widget title
 	 */
 	function form( $instance ) {
 
 		/** Set up some default widget settings */
 		$defaults = array(
 			'title'                  => __( 'Theme Details', 'bns-theme-details' ),
-			// 'title'                  => $this->widget_title( $instance['theme_slug'] ),
 			'theme_slug'             => $this->replace_spaces( wp_get_theme()->get_template() ),
 			/** The Main Options */
 			'use_screenshot_link'    => true,
@@ -459,22 +456,28 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	/**
 	 * Theme Details
 	 * The main collection of the details related to the theme as called from
-	 * the WordPress Theme API
+	 * the WordPress Theme API and derived elsewhere
 	 *
-	 * @package    BNS_Theme_Details
-	 * @since      0.1
+	 * @package     BNS_Theme_Details
+	 * @sub-package Output
+	 * @since       0.1
 	 *
 	 * @param $theme_slug   - primary data point
 	 * @param $main_options - output options
 	 *
-	 * @uses       BNS_Theme_Details_Widget::display_download_count
-	 * @uses       BNS_Theme_Details_Widget::display_download_link
-	 * @uses       BNS_Theme_Details_Widget::display_name_and_author
-	 * @uses       BNS_Theme_Details_Widget::display_rating_and_voters
-	 * @uses       BNS_Theme_Details_Widget::display_screenshot
-	 * @uses       BNS_Theme_Details_Widget::display_updated_and_version
-	 * @uses       _e
-	 * @uses       themes_api
+	 * @uses        BNS_Theme_Details_Widget::changelog
+	 * @uses        BNS_Theme_Details_Widget::display_download_count
+	 * @uses        BNS_Theme_Details_Widget::display_download_link
+	 * @uses        BNS_Theme_Details_Widget::display_name_and_author
+	 * @uses        BNS_Theme_Details_Widget::display_rating_and_voters
+	 * @uses        BNS_Theme_Details_Widget::display_screenshot
+	 * @uses        BNS_Theme_Details_Widget::display_updated_and_version
+	 * @uses        _e
+	 * @uses        themes_api
+	 *
+	 * @version     0.4
+	 * @date        December 27, 2014
+	 * Added `changelog` to output
 	 */
 	function theme_api_details( $theme_slug, $main_options ) {
 		/** Pull in the Theme API file */
@@ -551,8 +554,9 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	 * Returns the widget title based on the theme slug used for the output
 	 *
 	 * @package        BNS_Theme_Details
-	 * @sub-package    Output
 	 * @since          0.1
+	 *
+	 * @internal       Not currently used ... to be removed?
 	 *
 	 * @param $theme_slug
 	 *
@@ -903,15 +907,16 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	/**
 	 * Changelog
 	 *
-	 * @package BNS_Theme_Details
-	 * @since   0.4
+	 * @package     BNS_Theme_Details
+	 * @sub-package Output
+	 * @since       0.4
 	 *
-	 * @uses    BNS_Theme_Details_Widget::replace_spaces
-	 * @uses    __
-	 * @uses    apply_filters
-	 * @uses    wp_get_theme
-	 * @uses    wp_kses_post
-	 * @uses    wp_remote_get
+	 * @uses        BNS_Theme_Details_Widget::replace_spaces
+	 * @uses        __
+	 * @uses        apply_filters
+	 * @uses        wp_get_theme
+	 * @uses        wp_kses_post
+	 * @uses        wp_remote_get
 	 *
 	 * @param $main_options
 	 * @param $current_version
