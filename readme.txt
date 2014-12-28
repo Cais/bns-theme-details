@@ -76,13 +76,19 @@ This plugin currently only handles those themes that can be found in the WordPre
   http://www.gnu.org/licenses/gpl-2.0.html
 
 == Upgrade Notice ==
-Please stay current with your WordPress installation, your active theme, and your plugins.
+= 0.4 =
+* Now requires WordPress Version 3.6 or higher
+* New in plugin update message code added
+* Added some default styles
+* Please stay current with your WordPress installation, your active theme, and your active plugins.
 
 == Changelog ==
 = 0.4 =
 * Released ...
 * Added "in plugin update message" functionality
 * Added changelog to output (requires theme to use `changelog.txt` file)
+* Added enqueue statement for scripts and styles
+* Added CONSTANTS for "DRY" purposes and customization paths
 * Updated `exit_message` if WordPress version is too low
 * Corrected shortcode filter reference to indicate `bns_theme_details`
 * Corrected conditional statements (changed `===` to `==`)
