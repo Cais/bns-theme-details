@@ -94,6 +94,7 @@ This plugin currently only handles those themes that can be found in the WordPre
 * Corrected shortcode filter reference to indicate `bns_theme_details`
 * Corrected conditional statements (changed `===` to `==`)
 * Modified `textdomain` to use full plugin slug `bns-theme-details`
+* Switched order of "Theme Name and Author" with the "Screenshot"
 * Updated required version to 3.6 in reference to the shortcode filter option
 * Wrapped `<img />` tag in a `<p />` tag for better display compatibility
 

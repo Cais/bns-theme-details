@@ -567,8 +567,9 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	 * @uses        themes_api
 	 *
 	 * @version     0.4
-	 * @date        December 27, 2014
+	 * @date        December 28, 2014
 	 * Added `changelog` to output
+	 * Switched order of "Theme Name and Author" with the "Screenshot"
 	 */
 	function theme_api_details( $theme_slug, $main_options ) {
 		/** Pull in the Theme API file */
@@ -614,9 +615,9 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		/** Sanity check - make sure there is a value for the name */
 		if ( isset( $name ) ) {
 
-			echo $this->display_screenshot( $main_options, $screenshot_url );
-
 			echo $this->display_name_and_author( $main_options, $name, $author );
+
+			echo $this->display_screenshot( $main_options, $screenshot_url );
 
 			echo $this->display_updated_and_version( $main_options, $last_updated, $current_version );
 
