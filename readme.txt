@@ -1,7 +1,7 @@
 === BNS Theme Details ===
 Contributors: cais
 Donate link: http://buynowshop.com/
-Tags: themes, counter, plugin, widget, shortcode, details, download, author, update, rating
+Tags: themes details, themes, plugin, widget, shortcode, details, download, author, update, rating, changelog, version
 Requires at least: 3.6
 Tested up to: 4.1
 Stable tag: 0.4
@@ -45,6 +45,7 @@ Shortcode parameters (and their defaults):
 * `show_description => true` ... displays theme description (this is false by default in the widget section)
 * `show_downloaded_count => true` ... displays the total download count
 * `use_download_link => true` ... displays a download link pointing to the current version of the theme in the WordPress Theme repository
+* `show_changelog => true` ... displays the contents of the theme's `changelog.txt` file if it exists
 
 == Frequently Asked Questions ==
 Q: Why am I not seeing any Theme Details?
