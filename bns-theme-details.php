@@ -916,7 +916,10 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	 * @since   0.4
 	 *
 	 * @uses    BNS_Theme_Details_Widget::replace_spaces
+	 * @uses    __
 	 * @uses    apply_filters
+	 * @uses    wp_get_theme
+	 * @uses    wp_kses_post
 	 * @uses    wp_remote_get
 	 *
 	 * @param $main_options
@@ -926,6 +929,8 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	 * @return mixed|null|void
 	 */
 	function changelog( $main_options, $current_version, $name ) {
+
+		$changelog_lines = null;
 
 		if ( true === $main_options['show_changelog'] ) {
 
@@ -990,14 +995,12 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 			/** End foreach - line parsing */
 
 			$changelog_lines .= '</div>';
-
-			return apply_filters( 'bnstd_changelog_output', $changelog_lines );
-
+			
 		}
 
-		return null;
+		return apply_filters( 'bnstd_changelog_output', $changelog_lines );
 
-	}
+	} /** End function - changelog */
 
 
 	/**
@@ -1036,7 +1039,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 }
 
-/** End class - theme counter */
+/** End class - theme details */
 
 /** @var object $bns_td - create a new instance of the class */
 $bns_td = new BNS_Theme_Details_Widget();
