@@ -675,6 +675,71 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 
 	/**
+	 * Display Name and Author
+	 *
+	 * Returns the theme name and the theme author if they are set; or returns
+	 * null if they are not set
+	 *
+	 * @package        BNS_Theme_Details
+	 * @sub-package    Output
+	 * @since          0.1
+	 *
+	 * @param $main_options
+	 * @param $name
+	 * @param $author
+	 *
+	 * @uses           __
+	 * @uses           __return_null
+	 * @uses           apply_filters
+	 *
+	 * @return null|string
+	 *
+	 * @version        0.4
+	 * @date           December 28, 2014
+	 * Added more specificity to the output for more finely tuned styles
+	 */
+	function display_name_and_author( $main_options, $name, $author ) {
+
+		/**
+		 * Make sure there is a theme name set (redundant but also consistent)
+		 * and it is to be shown
+		 */
+		if ( isset( $name ) && ( true == $main_options['show_name'] ) ) {
+
+			$output = '<div class="bnstd-theme-name">' . sprintf( __( '%1$s %2$s', 'bns-theme-details' ), sprintf( '<span class="bnstd-theme-label">%1$s</span>', __( 'Theme:', 'bns-theme-details' ) ), $name ) . '</div>';
+
+			/** Make sure there is an author name set and it is to be shown */
+			if ( isset( $author ) && ( true == $main_options['show_author'] ) ) {
+
+				$output = '<div class="bnstd-theme-name-and-author">'
+				          . sprintf( __( '%1$s %2$s %3$s', 'bns-theme-details' ), sprintf( '<span class="bnstd-theme-label">%1$s</span>', __( 'Theme:', 'bns-theme-details' ) ), '<span class="bnstd-theme-name">' . $name . '</span>', sprintf( '<span class="bnstd-theme-by-author">by %1$s</span>', '<span class="bnstd-theme-author">' . $author . '</span>' ) )
+				          . '</div>';
+
+				return apply_filters( 'bnstd_display_name_and_author', $output );
+
+			}
+
+			/** End if - author name is set */
+
+			return apply_filters( 'bnstd_display_name_only', $output );
+
+		} elseif ( ! ( true == $main_options['show_name'] ) && ( true == $main_options['show_author'] ) ) {
+
+			$output = '<div class="bnstd-theme-by-author">' . sprintf( __( 'By %1$s', 'bns-theme-details' ), '<span class="bnstd-theme-author">' . $author . '</span>' ) . '</div>';
+
+			return apply_filters( 'bnstd_display_author_only', $output );
+
+		} else {
+
+			return apply_filters( 'bnstd_display_name_and_author', __return_null() );
+
+		}
+		/** End if - theme name is set */
+
+	} /** End function - display name and author */
+
+
+	/**
 	 * Display Screenshot
 	 *
 	 * Returns the screenshot URL in its own DIV ... or returns null.
@@ -717,67 +782,6 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 
 	/**
-	 * Display Name and Author
-	 *
-	 * Returns the theme name and the theme author if they are set; or returns
-	 * null if they are not set
-	 *
-	 * @package        BNS_Theme_Details
-	 * @sub-package    Output
-	 * @since          0.1
-	 *
-	 * @param $main_options
-	 * @param $name
-	 * @param $author
-	 *
-	 * @uses           __
-	 * @uses           __return_null
-	 * @uses           apply_filters
-	 *
-	 * @return null|string
-	 */
-	function display_name_and_author( $main_options, $name, $author ) {
-
-		/**
-		 * Make sure there is a theme name set (redundant but also consistent)
-		 * and it is to be shown
-		 */
-		if ( isset( $name ) && ( true == $main_options['show_name'] ) ) {
-
-			$output = '<div class="bnstd-theme-name">' . sprintf( __( 'Theme: %1$s', 'bns-theme-details' ), $name ) . '</div>';
-
-			/** Make sure there is an author name set and it is to be shown */
-			if ( isset( $author ) && ( true == $main_options['show_author'] ) ) {
-
-				$output = '<div class="bnstd-theme-name-and-author">'
-				          . sprintf( __( 'Theme: %1$s by %2$s', 'bns-theme-details' ), '<span class="bnstd-theme-name">' . $name . '</span>', '<span class="bnstd-theme-author">' . $author . '</span>' )
-				          . '</div>';
-
-				return apply_filters( 'bnstd_display_name_and_author', $output );
-
-			}
-
-			/** End if - author name is set */
-
-			return apply_filters( 'bnstd_display_name_only', $output );
-
-		} elseif ( ! ( true == $main_options['show_name'] ) && ( true == $main_options['show_author'] ) ) {
-
-			$output = '<div class="bnstd-theme-author">' . sprintf( __( 'By %1$s', 'bns-theme-details' ), $author ) . '</div>';
-
-			return apply_filters( 'bnstd_display_author_only', $output );
-
-		} else {
-
-			return apply_filters( 'bnstd_display_name_and_author', __return_null() );
-
-		}
-		/** End if - theme name is set */
-
-	} /** End function - display name and author */
-
-
-	/**
 	 * Display Updated and Version
 	 *
 	 * Returns the last updated date and the current theme version if the are
@@ -796,6 +800,10 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	 * @uses           apply_filters
 	 *
 	 * @return null|string
+	 *
+	 * @version        0.4
+	 * @date           December 28, 2014
+	 * Added more specificity to the output for more finely tuned styles
 	 */
 	function display_updated_and_version( $main_options, $last_updated, $current_version ) {
 
@@ -809,9 +817,10 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 				$output = '<div class="bnstd-updated-and-version">'
 				          . sprintf(
-						__( 'Last updated: %1$s %2$s', 'bns-td' ),
+						__( '%1$s %2$s %3$s', 'bns-td' ),
+						'<span class="bnstd-updated-label">Last updated:</span>',
 						'<span class="bnstd-updated">' . $last_updated . '</span>',
-						'<span class="bnstd-version">' . sprintf( __( '(version %1$s)', 'bns-theme-details' ), $current_version ) . '</span>'
+						'<span class="bnstd-version">' . sprintf( __( '(%1$s %2$s)', 'bns-theme-details' ), '<span class="bnstd-version-label">version</span>', $current_version ) . '</span>'
 					) . '</div>';
 
 				return apply_filters( 'bnstd_display_updated_and_version', $output );
@@ -824,7 +833,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 		} elseif ( ! ( true == $main_options['show_last_updated'] ) && ( true == $main_options['show_current_version'] ) ) {
 
-			$output = '<div class="bnstd-version">' . sprintf( __( 'Current version: %1$s', 'bns-theme-details' ), $current_version ) . '</div>';
+			$output = '<div class="bnstd-version">' . sprintf( __( '%1$s %2$s', 'bns-theme-details' ), '<span class="bnstd-version-label">Current version:</span>', $current_version ) . '</div>';
 
 			return apply_filters( 'bnstd_display_version_only', $output );
 
@@ -857,19 +866,24 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	 * @uses           apply_filters
 	 *
 	 * @return null|string
+	 *
+	 * @version        0.4
+	 * @date           December 28, 2014
+	 * Added more specificity to the output for more finely tuned styles
 	 */
 	function display_rating_and_voters( $main_options, $rating, $number_of_ratings ) {
 
 		/** Check if rating is set an if it should be shown */
 		if ( isset( $rating ) && ( true == $main_options['show_rating'] ) ) {
 
-			$output = '<div class="bnstd-rating">' . sprintf( __( 'Average Rating: %1$s stars', 'bns-theme-details' ), $rating ) . '</div>';
+			$output = '<div class="bnstd-rating">' . sprintf( __( '%1$s %2$s stars', 'bns-theme-details' ), '<span class="bnstd-rating-label">Average Rating:</span>', $rating ) . '</div>';
 
 			/** Check if number of ratings is set and if it should be shown */
 			if ( isset( $number_of_ratings ) && ( true == $main_options['show_number_of_ratings'] ) ) {
 
 				$output = '<div class="bnstd-rating-and-voters">' . sprintf(
-						__( 'Average Rating: %1$s stars %2$s', 'bns-theme-details' ),
+						__( '%1$s %2$s stars %3$s', 'bns-theme-details' ),
+						'<span class="bnstd-rating-label">Average Rating:</span>',
 						'<span class="bnstd-rating">' . $rating . '</span>',
 						'<span class="bnstd-voters">' . sprintf( __( '(by %1$s voters)', 'bns-theme-details' ), $number_of_ratings ) . '</span>'
 					) . '</div>';

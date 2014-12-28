@@ -90,6 +90,7 @@ This plugin currently only handles those themes that can be found in the WordPre
 * Added changelog to output (requires theme to use `changelog.txt` file)
 * Added enqueue statement for scripts and styles
 * Added CONSTANTS for "DRY" purposes and customization paths
+* Added more specificity to the output for more finely tuned styles
 * Updated `exit_message` if WordPress version is too low
 * Corrected shortcode filter reference to indicate `bns_theme_details`
 * Corrected conditional statements (changed `===` to `==`)

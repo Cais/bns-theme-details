@@ -23,3 +23,11 @@
  *      Boston, MA  02110-1301  USA
  */
 
+div.bnstd-theme-name-and-author {
+	text-align: center;
+}
+
+span.bnstd-theme-label,
+span.bnstd-updated-label {
+	font-weight: bold;
+}
