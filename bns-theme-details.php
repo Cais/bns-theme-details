@@ -223,6 +223,10 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	 * @uses       apply_filters
 	 *
 	 * @return    void
+	 *
+	 * @version    0.4
+	 * @date       December 28, 2014
+	 * Change sanity check to ensure `$theme_slug` is not empty versus not `null`
 	 */
 	function widget( $args, $instance ) {
 		extract( $args );
@@ -242,8 +246,8 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		$main_options['use_download_link']      = $instance['use_download_link'];
 		$main_options['show_changelog']         = $instance['show_changelog'];
 
-		/** Sanity check - make sure theme slug is not null */
-		if ( null !== $theme_slug ) {
+		/** Sanity check - make sure theme slug is not empty / blank */
+		if ( ! empty( $theme_slug ) ) {
 
 			/** @var $before_widget string - define by theme */
 			echo $before_widget;

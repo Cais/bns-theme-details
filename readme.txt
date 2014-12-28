@@ -91,12 +91,13 @@ This plugin currently only handles those themes that can be found in the WordPre
 * Added enqueue statement for scripts and styles
 * Added CONSTANTS for "DRY" purposes and customization paths
 * Added more specificity to the output for more finely tuned styles
-* Updated `exit_message` if WordPress version is too low
+* Change sanity check to ensure `$theme_slug` is not empty versus not `null`
 * Corrected shortcode filter reference to indicate `bns_theme_details`
 * Corrected conditional statements (changed `===` to `==`)
 * Modified `textdomain` to use full plugin slug `bns-theme-details`
 * Switched order of "Theme Name and Author" with the "Screenshot"
 * Updated required version to 3.6 in reference to the shortcode filter option
+* Updated `exit_message` if WordPress version is too low
 * Wrapped `<img />` tag in a `<p />` tag for better display compatibility
 
 = 0.3 =
