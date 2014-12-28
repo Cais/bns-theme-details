@@ -876,15 +876,21 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		/** Check if rating is set an if it should be shown */
 		if ( isset( $rating ) && ( true == $main_options['show_rating'] ) ) {
 
-			$output = '<div class="bnstd-rating">' . sprintf( __( '%1$s %2$s stars', 'bns-theme-details' ), '<span class="bnstd-rating-label">Average Rating:</span>', $rating ) . '</div>';
+			$output = '<div class="bnstd-rating">' . sprintf(
+					__( '%1$s %2$s %3$s', 'bns-theme-details' ),
+					'<span class="bnstd-rating-label">Average Rating:</span>',
+					'<span class="bnstd-rating">' . $rating . '</span>',
+					'<span class="bnstd-rating-stars">stars</span>'
+				) . '</div>';
 
 			/** Check if number of ratings is set and if it should be shown */
 			if ( isset( $number_of_ratings ) && ( true == $main_options['show_number_of_ratings'] ) ) {
 
 				$output = '<div class="bnstd-rating-and-voters">' . sprintf(
-						__( '%1$s %2$s stars %3$s', 'bns-theme-details' ),
+						__( '%1$s %2$s %3$s %4$s', 'bns-theme-details' ),
 						'<span class="bnstd-rating-label">Average Rating:</span>',
 						'<span class="bnstd-rating">' . $rating . '</span>',
+						'<span class="bnstd-rating-stars">stars</span>',
 						'<span class="bnstd-voters">' . sprintf( __( '(by %1$s voters)', 'bns-theme-details' ), $number_of_ratings ) . '</span>'
 					) . '</div>';
 

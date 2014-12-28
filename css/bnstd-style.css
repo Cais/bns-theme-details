@@ -28,6 +28,7 @@ div.bnstd-theme-name-and-author {
 }
 
 span.bnstd-theme-label,
-span.bnstd-updated-label {
+span.bnstd-updated-label,
+span.bnstd-rating-label {
 	font-weight: bold;
 }
