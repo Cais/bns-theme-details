@@ -29,6 +29,9 @@ div.bnstd-theme-name-and-author {
 
 span.bnstd-theme-label,
 span.bnstd-updated-label,
-span.bnstd-rating-label {
+span.bnstd-rating-label,
+span.bnstd-download-count-label,
+span.bnstd-download-link-label,
+div.bnstd-changelog-label {
 	font-weight: bold;
 }

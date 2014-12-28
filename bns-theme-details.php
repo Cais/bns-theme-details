@@ -929,13 +929,17 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	 * @uses           apply_filters
 	 *
 	 * @return string
+	 *
+	 * @version        0.4
+	 * @date           December 28, 2014
+	 * Added more specificity to the output for more finely tuned styles
 	 */
 	function display_download_count( $main_options, $count ) {
 
 		/** Check if the count is set and is to be shown */
 		if ( isset( $count ) && ( true == $main_options['show_downloaded_count'] ) ) {
 
-			$output = '<div class="bnstd-download-count">' . sprintf( __( 'Total downloads: %1$s', 'bns-theme-details' ), $count ) . '</div>';
+			$output = '<div class="bnstd-download-count">' . sprintf( __( '%1$s %2$s', 'bns-theme-details' ), '<span class="bnstd-download-count-label">Total downloads:</span>', $count ) . '</div>';
 
 			return apply_filters( 'bnstd_display_download_count', $output );
 
@@ -1010,7 +1014,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		if ( isset( $download_link ) && ( true == $main_options['use_download_link'] ) ) {
 
 			$output = '<div class="bnstd-download-link">'
-			          . sprintf( __( 'Download your copy %1$s', 'bns-theme-details' ), '<a class="bnstd-download-link-url" href="' . $download_link . '">' . __( 'here', 'bns-td' ) . '</a>' ) . '</div>';
+			          . sprintf( __( '%1$s %2$s', 'bns-theme-details' ), '<span class="bnstd-download-link-label">Download your copy:</span>', '<a class="bnstd-download-link-url" href="' . $download_link . '">' . __( 'click here', 'bns-theme-details' ) . '</a>' ) . '</div>';
 
 			return apply_filters( 'bnstd_display_download_link', $output );
 
@@ -1050,7 +1054,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 		if ( true == $main_options['show_changelog'] ) {
 
-			echo sprintf( '<div class="bnstd-changelog-title">%1$s</div>', __( 'Changelog:', 'bns-theme-details' ) );
+			echo sprintf( '<div class="bnstd-changelog-label">%1$s</div>', __( 'Changelog:', 'bns-theme-details' ) );
 
 			$theme_slug     = $this->replace_spaces( wp_get_theme( $name )->get_template() );
 			$changelog_path = wp_remote_get( 'https://themes.svn.wordpress.org/' . $theme_slug . '/' . $current_version . '/changelog.txt' );
