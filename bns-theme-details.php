@@ -106,8 +106,14 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		/** End if = version compare */
 
 		/** Define some constants to save some keying */
-		define( 'BNSTD_URL', plugin_dir_url( __FILE__ ) );
-		define( 'BNSTD_PATH', plugin_dir_path( __FILE__ ) );
+		if ( ! defined( 'BNSTD_URL' ) ) {
+			define( 'BNSTD_URL', plugin_dir_url( __FILE__ ) );
+		}
+		/** End if - not defined */
+		if ( ! defined( 'BNSTD_PATH' ) ) {
+			define( 'BNSTD_PATH', plugin_dir_path( __FILE__ ) );
+		}
+		/** End if - not defined */
 
 		/** Define location for BNS plugin customizations */
 		if ( ! defined( 'BNS_CUSTOM_PATH' ) ) {
