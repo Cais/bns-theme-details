@@ -115,7 +115,8 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 			)
 		);
 
-	}
+	} /** End function - constructor */
+
 
 	/**
 	 * Override widget method of class WP_Widget
@@ -127,8 +128,8 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	 * @param    $instance
 	 *
 	 * @uses       BNS_Theme_Details::replace_spaces
-	 * @uses       BNS_Theme_Counter::theme_api_details
-	 * @uses       BNS_Theme_Counter::widget_title
+	 * @uses       BNS_Theme_Details::theme_api_details
+	 * @uses       BNS_Theme_Details::widget_title
 	 * @uses       apply_filters
 	 *
 	 * @return    void
@@ -180,9 +181,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		}
 		/** End if - is there a theme slug */
 
-	}
-
-	/** End function - widget */
+	} /** End function - widget */
 
 
 	/**
@@ -220,9 +219,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 		return $instance;
 
-	}
-
-	/** End function - update */
+	} /** End function - update */
 
 
 	/**
@@ -251,7 +248,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		/** Set up some default widget settings */
 		$defaults = array(
 			'title'                  => __( 'Theme Details', 'bns-theme-details' ),
-			/** 'title'                  => $this->widget_title( $instance['theme_slug'] ), */
+			// 'title'                  => $this->widget_title( $instance['theme_slug'] ),
 			'theme_slug'             => $this->replace_spaces( wp_get_theme()->get_template() ),
 			/** The Main Options */
 			'use_screenshot_link'    => true,
@@ -373,9 +370,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		</p>
 
 	<?php
-	}
-
-	/** End function - form */
+	} /** End function - form */
 
 
 	/**
@@ -389,9 +384,10 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	 * @return  void
 	 */
 	function load_bnstd_widget() {
+
 		register_widget( 'BNS_Theme_Details_Widget' );
-	}
-	/** End function - load bnstd widget */
+
+	} /** End function - load bnstd widget */
 
 
 	/**
@@ -457,7 +453,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 		return $bns_theme_details_content;
 
-	}
+	} /** End function - shortcode */
 
 
 	/**
@@ -546,8 +542,8 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 		}
 		/** End if - is count set */
-	}
-	/** End function - theme counter shortcode */
+
+	} /** End function - theme api details */
 
 
 	/**
@@ -574,11 +570,12 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 			? wp_get_theme()->get_template()
 			: wp_get_theme( $theme_slug )->get( 'Name' );
 
-		$title = '<span class="bnstd-widget-title">' . sprintf( __( '%1$s Download Counter', 'bns-theme-details' ), $theme_name ) . '</span>';
+		$title = '<span class="bnstd-widget-title">' . sprintf( __( '%1$s Details', 'bns-theme-details' ), $theme_name ) . '</span>';
 
 		return apply_filters( 'bnstd_widget_title', $title );
 
-	}    /** End function - widget title */
+	} /** End function - widget title */
+
 
 	/**
 	 * Display Screenshot
@@ -619,6 +616,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		/** End if - use screenshot link */
 
 	} /** End function - display screenshot */
+
 
 	/**
 	 * Display Name and Author
@@ -677,8 +675,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		}
 		/** End if - theme name is set */
 
-	}
-	/** End function - display name and author */
+	} /** End function - display name and author */
 
 
 	/**
@@ -738,8 +735,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		}
 		/** End if - last updated is set */
 
-	}
-	/** End function - display updated and version */
+	} /** End function - display updated and version */
 
 
 	/**
@@ -792,8 +788,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		}
 		/** End if - rating is set */
 
-	}
-	/** End function - display rating and voters */
+	} /** End function - display rating and voters */
 
 
 	/**
@@ -829,8 +824,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		}
 		/** End if - show count */
 
-	}
-	/** End function - display download count */
+	} /** End function - display download count */
 
 
 	/**
@@ -866,8 +860,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		}
 		/** End if - show description */
 
-	}
-	/** End function - display description */
+	} /** End function - display description */
 
 
 	/**
@@ -904,9 +897,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		}
 		/** End if - download link is set */
 
-	}
-
-	/** End function - display download link */
+	} /** End function - display download link */
 
 
 	/**
@@ -1033,7 +1024,6 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		return $new_text;
 
 	}
-
 	/** End function - replace spaces */
 
 
