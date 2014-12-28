@@ -2,6 +2,18 @@
 <project version="4">
   <component name="PublishConfigData">
     <serverData>
+      <paths name="BNS">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/wp-content/plugins/bns-theme-details" local="$PROJECT_DIR$" web="/wp-content/plugins/bns-theme-details" />
+            <mapping deploy="/wp-includes" local="$PROJECT_DIR$/../../../wp-includes" web="/wp-includes" />
+            <mapping deploy="/wp-admin" local="$PROJECT_DIR$/../../../wp-admin" web="/wp-admin" />
+          </mappings>
+          <excludedPaths>
+            <excludedPath local="true" path="$PROJECT_DIR$/assets" />
+          </excludedPaths>
+        </serverdata>
+      </paths>
       <paths name="EAC">
         <serverdata>
           <mappings>
@@ -29,4 +41,3 @@
     </serverData>
   </component>
 </project>
-

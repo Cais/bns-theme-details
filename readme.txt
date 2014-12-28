@@ -85,12 +85,13 @@ This plugin currently only handles those themes that can be found in the WordPre
 
 == Changelog ==
 = 0.4 =
-* Released ...
+* Released December 2014
 * Added "in plugin update message" functionality
 * Added changelog to output (requires theme to use `changelog.txt` file)
 * Added enqueue statement for scripts and styles
 * Added CONSTANTS for "DRY" purposes and customization paths
 * Added more specificity to the output for more finely tuned styles
+* Added plugin "icon" assets
 * Change sanity check to ensure `$theme_slug` is not empty versus not `null`
 * Corrected shortcode filter reference to indicate `bns_theme_details`
 * Corrected conditional statements (changed `===` to `==`)
