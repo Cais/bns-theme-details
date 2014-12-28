@@ -47,7 +47,6 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * The license for this software can also likely be found here:
  * http://www.gnu.org/licenses/gpl-2.0.html
  *
- * @todo           Find a better boolean check than what is currently being used
  * @todo           Make the download link a button?
  * @todo           Call theme details to add Author URI and/or Theme URI links?
  */
@@ -72,6 +71,8 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	 *
 	 * @version 0.4
 	 * @date    December 27, 2014
+	 * Added enqueue statement for scripts and styles
+	 * Added CONSTANTS for "DRY" purposes and customization paths
 	 * Updated `exit_message` if WordPress version is too low
 	 */
 	function __construct() {
@@ -104,6 +105,26 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		}
 		/** End if = version compare */
 
+		/** Define some constants to save some keying */
+		define( 'BNSTD_URL', plugin_dir_url( __FILE__ ) );
+		define( 'BNSTD_PATH', plugin_dir_path( __FILE__ ) );
+
+		/** Define location for BNS plugin customizations */
+		if ( ! defined( 'BNS_CUSTOM_PATH' ) ) {
+			define( 'BNS_CUSTOM_PATH', WP_CONTENT_DIR . '/bns-customs/' );
+		}
+		/** End if - not defined */
+		if ( ! defined( 'BNS_CUSTOM_URL' ) ) {
+			define( 'BNS_CUSTOM_URL', content_url( '/bns-customs/' ) );
+		}
+		/** End if - not defined */
+
+		/** Enqueue Scripts and Styles */
+		add_action( 'wp_enqueue_scripts', array(
+			$this,
+			'scripts_and_styles'
+		) );
+
 		/** Add widget */
 		add_action( 'widgets_init', array( $this, 'load_bnstd_widget' ) );
 
@@ -116,6 +137,69 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		);
 
 	} /** End function - constructor */
+
+
+	/**
+	 * Enqueue Plugin Scripts and Styles
+	 *
+	 * Adds plugin stylesheet and allows for custom stylesheet to be added by end-user.
+	 *
+	 * @package BNS_Inline_Asides
+	 * @since   0.4
+	 *
+	 * @uses    (CONSTANT)   BNS_CUSTOM_PATH
+	 * @uses    (CONSTANT)   BNS_CUSTOM_URL
+	 * @uses    (CONSTANT)   BNSTD_PATH
+	 * @uses    (CONSTANT)   BNSTD_URL
+	 * @uses    BNS_Theme_Details_Widget::plugin_data
+	 * @uses    wp_enqueue_script
+	 * @uses    wp_enqueue_style
+	 */
+	function scripts_and_styles() {
+		/** @var object $bnstd_data - holds the plugin header data */
+		$bnstd_data = $this->plugin_data();
+
+		/** Enqueue Scripts */
+		/** Enqueue toggling script which calls jQuery as a dependency */
+		/** Placeholder code ... no JavaScript is implemented at this time */
+		/**  wp_enqueue_script( 'bnstd_script', BNSTD_URL . 'js/bnstd-script.js', array( 'jquery' ), $bnstd_data['Version'], true ); */
+
+		/** Enqueue Style Sheets */
+		wp_enqueue_style( 'BNSTD-Style', BNSTD_URL . 'css/bnstd-style.css', array(), $bnstd_data['Version'], 'screen' );
+
+		/** This location is recommended as upgrade safe */
+		if ( is_readable( BNS_CUSTOM_PATH . 'bnstd-custom-types.css' ) ) {
+			wp_enqueue_style( 'BNSTD-Custom-Styles', BNS_CUSTOM_URL . 'bnstd-custom-styles.css', array(), $bnstd_data['Version'], 'screen' );
+		}
+		/** End if - is readable */
+
+	}
+	/** End function - scripts and styles */
+
+
+	/**
+	 * Plugin Data
+	 *
+	 * Returns the plugin header data as an array
+	 *
+	 * @package    BNS_Theme_Details
+	 * @since      0.4
+	 *
+	 * @uses       get_plugin_data
+	 *
+	 * @return array
+	 */
+	function plugin_data() {
+
+		/** Call the wp-admin plugin code */
+		require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
+		/** @var $plugin_data - holds the plugin header data */
+		$plugin_data = get_plugin_data( __FILE__ );
+
+		return $plugin_data;
+
+	}
+	/** End function - plugin data */
 
 
 	/**
@@ -455,6 +539,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 	/**
 	 * Theme Details
+	 *
 	 * The main collection of the details related to the theme as called from
 	 * the WordPress Theme API and derived elsewhere
 	 *
@@ -551,6 +636,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 	/**
 	 * Widget Title
+	 *
 	 * Returns the widget title based on the theme slug used for the output
 	 *
 	 * @package        BNS_Theme_Details
@@ -583,6 +669,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 	/**
 	 * Display Screenshot
+	 *
 	 * Returns the screenshot URL in its own DIV ... or returns null.
 	 *
 	 * @package        BNS_Theme_Details
@@ -624,6 +711,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 	/**
 	 * Display Name and Author
+	 *
 	 * Returns the theme name and the theme author if they are set; or returns
 	 * null if they are not set
 	 *
@@ -684,6 +772,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 	/**
 	 * Display Updated and Version
+	 *
 	 * Returns the last updated date and the current theme version if the are
 	 * set or  null if they are not set
 	 *
@@ -744,6 +833,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 	/**
 	 * Display Ratings and Voters
+	 *
 	 * Return the star rating of the theme and the number of voters if set, or
 	 * retrun null if they are not
 	 *
@@ -797,6 +887,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 	/**
 	 * Display Download Count
+	 *
 	 * Returns the download count
 	 *
 	 * @package        BNS_Theme_Details
@@ -833,6 +924,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 	/**
 	 * Display Description
+	 *
 	 * Returns the theme description
 	 *
 	 * @package        BNS_Theme_Details
@@ -869,6 +961,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 	/**
 	 * Display Download Link
+	 *
 	 * Return the download link if it is set or return null if it is not
 	 *
 	 * @package        BNS_Theme_Details
@@ -1001,6 +1094,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 	/**
 	 * Replace Spaces
+	 *
 	 * Takes a string, changes it to lower case and replaces the spaces with a
 	 * single hyphen by default
 	 *
