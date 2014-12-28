@@ -603,7 +603,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	function display_screenshot( $main_options, $screenshot_url ) {
 
 		/** Check if the screenshot link is set and is to be used */
-		if ( isset( $screenshot_url ) && ( true === $main_options['use_screenshot_link'] ) ) {
+		if ( isset( $screenshot_url ) && ( true == $main_options['use_screenshot_link'] ) ) {
 
 			$output = '<div class="bnstd-screenshot aligncenter">';
 			$output .= '<p><img src="' . $screenshot_url . '" /></p>';
@@ -645,12 +645,12 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 		 * Make sure there is a theme name set (redundant but also consistent)
 		 * and it is to be shown
 		 */
-		if ( isset( $name ) && ( true === $main_options['show_name'] ) ) {
+		if ( isset( $name ) && ( true == $main_options['show_name'] ) ) {
 
 			$output = '<div class="bnstd-theme-name">' . sprintf( __( 'Theme: %1$s', 'bns-theme-details' ), $name ) . '</div>';
 
 			/** Make sure there is an author name set and it is to be shown */
-			if ( isset( $author ) && ( true === $main_options['show_author'] ) ) {
+			if ( isset( $author ) && ( true == $main_options['show_author'] ) ) {
 
 				$output = '<div class="bnstd-theme-name-and-author">'
 				          . sprintf( __( 'Theme: %1$s by %2$s', 'bns-theme-details' ), '<span class="bnstd-theme-name">' . $name . '</span>', '<span class="bnstd-theme-author">' . $author . '</span>' )
@@ -664,7 +664,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 			return apply_filters( 'bnstd_display_name_only', $output );
 
-		} elseif ( ! ( true === $main_options['show_name'] ) && ( true === $main_options['show_author'] ) ) {
+		} elseif ( ! ( true == $main_options['show_name'] ) && ( true == $main_options['show_author'] ) ) {
 
 			$output = '<div class="bnstd-theme-author">' . sprintf( __( 'By %1$s', 'bns-theme-details' ), $author ) . '</div>';
 
@@ -703,12 +703,12 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	function display_updated_and_version( $main_options, $last_updated, $current_version ) {
 
 		/** Make sure the last updated is set and it is to be shown */
-		if ( isset( $last_updated ) && ( true === $main_options['show_last_updated'] ) ) {
+		if ( isset( $last_updated ) && ( true == $main_options['show_last_updated'] ) ) {
 
 			$output = '<div class="bnstd-updated">' . sprintf( __( 'Last updated: %1$s', 'bns-theme-details' ), $last_updated ) . '</div>';
 
 			/** Make sure the current version is set and it is to be shown */
-			if ( isset( $current_version ) && ( true === $main_options['show_current_version'] ) ) {
+			if ( isset( $current_version ) && ( true == $main_options['show_current_version'] ) ) {
 
 				$output = '<div class="bnstd-updated-and-version">'
 				          . sprintf(
@@ -725,7 +725,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 			return apply_filters( 'bnstd_display_updated_only', $output );
 
-		} elseif ( ! ( true === $main_options['show_last_updated'] ) && ( true === $main_options['show_current_version'] ) ) {
+		} elseif ( ! ( true == $main_options['show_last_updated'] ) && ( true == $main_options['show_current_version'] ) ) {
 
 			$output = '<div class="bnstd-version">' . sprintf( __( 'Current version: %1$s', 'bns-theme-details' ), $current_version ) . '</div>';
 
@@ -764,12 +764,12 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	function display_rating_and_voters( $main_options, $rating, $number_of_ratings ) {
 
 		/** Check if rating is set an if it should be shown */
-		if ( isset( $rating ) && ( true === $main_options['show_rating'] ) ) {
+		if ( isset( $rating ) && ( true == $main_options['show_rating'] ) ) {
 
 			$output = '<div class="bnstd-rating">' . sprintf( __( 'Average Rating: %1$s stars', 'bns-theme-details' ), $rating ) . '</div>';
 
 			/** Check if number of ratings is set and if it should be shown */
-			if ( isset( $number_of_ratings ) && ( true === $main_options['show_number_of_ratings'] ) ) {
+			if ( isset( $number_of_ratings ) && ( true == $main_options['show_number_of_ratings'] ) ) {
 
 				$output = '<div class="bnstd-rating-and-voters">' . sprintf(
 						__( 'Average Rating: %1$s stars %2$s', 'bns-theme-details' ),
@@ -816,7 +816,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	function display_download_count( $main_options, $count ) {
 
 		/** Check if the count is set and is to be shown */
-		if ( isset( $count ) && ( true === $main_options['show_downloaded_count'] ) ) {
+		if ( isset( $count ) && ( true == $main_options['show_downloaded_count'] ) ) {
 
 			$output = '<div class="bnstd-download-count">' . sprintf( __( 'Total downloads: %1$s', 'bns-theme-details' ), $count ) . '</div>';
 
@@ -853,7 +853,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	function display_description( $main_options, $description ) {
 
 		/** Check if the count is set and is to be shown */
-		if ( isset( $description ) && ( true === $main_options['show_description'] ) ) {
+		if ( isset( $description ) && ( true == $main_options['show_description'] ) ) {
 
 			$output = '<div class="bnstd-description">' . $description . '</div>';
 
@@ -890,7 +890,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	function display_download_link( $main_options, $download_link ) {
 
 		/** Check if download link is set and if it should be shown */
-		if ( isset( $download_link ) && ( true === $main_options['use_download_link'] ) ) {
+		if ( isset( $download_link ) && ( true == $main_options['use_download_link'] ) ) {
 
 			$output = '<div class="bnstd-download-link">'
 			          . sprintf( __( 'Download your copy %1$s', 'bns-theme-details' ), '<a class="bnstd-download-link-url" href="' . $download_link . '">' . __( 'here', 'bns-td' ) . '</a>' ) . '</div>';
@@ -932,7 +932,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 		$changelog_lines = null;
 
-		if ( true === $main_options['show_changelog'] ) {
+		if ( true == $main_options['show_changelog'] ) {
 
 			echo sprintf( '<div class="bnstd-changelog-title">%1$s</div>', __( 'Changelog:', 'bns-theme-details' ) );
 
@@ -995,7 +995,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 			/** End foreach - line parsing */
 
 			$changelog_lines .= '</div>';
-			
+
 		}
 
 		return apply_filters( 'bnstd_changelog_output', $changelog_lines );
@@ -1065,7 +1065,7 @@ function BNS_Theme_Details_in_plugin_update_message( $args ) {
 	$bnstd_data = get_plugin_data( __FILE__ );
 
 	$transient_name = 'bnstd_upgrade_notice_' . $args['Version'];
-	if ( false === ( $upgrade_notice = get_transient( $transient_name ) ) ) {
+	if ( false == ( $upgrade_notice = get_transient( $transient_name ) ) ) {
 
 		/** @var string $response - get the readme.txt file from WordPress */
 		$response = wp_remote_get( 'https://plugins.svn.wordpress.org/bns-theme-details/trunk/readme.txt' );

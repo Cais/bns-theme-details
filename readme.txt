@@ -85,6 +85,7 @@ Please stay current with your WordPress installation, your active theme, and you
 * Added changelog to output (requires theme to use `changelog.txt` file)
 * Updated `exit_message` if WordPress version is too low
 * Corrected shortcode filter reference to indicate `bns_theme_details`
+* Corrected conditional statements (changed `===` to `==`)
 * Modified `textdomain` to use full plugin slug `bns-theme-details`
 * Updated required version to 3.6 in reference to the shortcode filter option
 * Wrapped `<img />` tag in a `<p />` tag for better display compatibility
