@@ -1046,6 +1046,9 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 	 * @uses        wp_kses_post
 	 * @uses        wp_remote_get
 	 *
+	 * @internal    Uses BNS Inline Asides to minimize the display by default
+	 * @link        https://wordpress.org/plugins/bns-inline-asides
+	 *
 	 * @param $main_options
 	 * @param $current_version
 	 * @param $name
@@ -1058,7 +1061,13 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 
 		if ( true == $main_options['show_changelog'] ) {
 
-			echo sprintf( '<div class="bnstd-changelog-label">%1$s</div>', __( 'Changelog:', 'bns-theme-details' ) );
+			/** Spice things up by leveraging BNS Inline Asides */
+			if ( ! is_plugin_active( 'bns-inline-asides/bns-inline-asides.php' ) ) {
+
+				echo sprintf( '<div class="bnstd-changelog-label">%1$s</div>', __( 'Changelog:', 'bns-theme-details' ) );
+
+			}
+			/** End if - is plugin active */
 
 			$theme_slug     = $this->replace_spaces( wp_get_theme( $name )->get_template() );
 			$changelog_path = wp_remote_get( 'https://themes.svn.wordpress.org/' . $theme_slug . '/' . $current_version . '/changelog.txt' );
@@ -1119,6 +1128,14 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 			/** End foreach - line parsing */
 
 			$changelog_lines .= '</div>';
+
+			/** Spice things up by leveraging BNS Inline Asides */
+			if ( is_plugin_active( 'bns-inline-asides/bns-inline-asides.php' ) ) {
+
+				$changelog_lines = do_shortcode( '[aside type=changelog status=closed]' . $changelog_lines . '[/aside]' );
+
+			}
+			/** End if - is plugin active */
 
 		}
 
