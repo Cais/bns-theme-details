@@ -3,7 +3,7 @@
 Plugin Name: BNS Theme Details
 Plugin URI: http://buynowshop.com/plugins/bns-theme-details
 Description: Displays theme specific details such as download count, last update, author, etc.
-Version: 0.4
+Version: 0.4.1
 Text Domain: bns-theme-details
 Author: Edward Caissie
 Author URI: http://edwardcaissie.com/
@@ -22,10 +22,10 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @package        BNS_Theme_Details
  * @link           http://buynowshop.com/plugins/bns-theme-details
  * @link           https://github.com/Cais/bns-theme-details
- * @link           http://wordpress.org/extend/plugins/bns-theme-details/
- * @version        0.4
+ * @link           https://wordpress.org/plugins/bns-theme-details/
+ * @version        0.4.1
  * @author         Edward Caissie <edward.caissie@gmail.com>
- * @copyright      Copyright (c) 2014, Edward Caissie
+ * @copyright      Copyright (c) 2014-2015, Edward Caissie
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License version 2, as published by the
@@ -88,7 +88,7 @@ class BNS_Theme_Details_Widget extends WP_Widget {
 			'id_base' => 'bns-theme-details'
 		);
 		/** Create the widget */
-		$this->WP_Widget( 'bns-theme-details', 'BNS Theme Details', $widget_ops, $control_ops );
+		parent::__construct( 'bns-theme-details', 'BNS Theme Details', $widget_ops, $control_ops );
 
 		/**
 		 * Check installed WordPress version for compatibility

@@ -3,8 +3,8 @@ Contributors: cais
 Donate link: http://buynowshop.com/
 Tags: themes details, themes, plugin, widget, shortcode, details, download, author, update, rating, changelog, version
 Requires at least: 3.6
-Tested up to: 4.1
-Stable tag: 0.4
+Tested up to: 4.2.2
+Stable tag: 0.4.1
 License: GNU General Public License v2
 License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
@@ -56,7 +56,7 @@ This plugin currently only handles those themes that can be found in the WordPre
 * To be developed
 
 == Other Notes ==
-* Copyright 2014  Edward Caissie  (email : edward.caissie@gmail.com)
+* Copyright 2014-2015  Edward Caissie  (email : edward.caissie@gmail.com)
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License version 2,
@@ -84,6 +84,10 @@ This plugin currently only handles those themes that can be found in the WordPre
 * Please stay current with your WordPress installation, your active theme, and your active plugins.
 
 == Changelog ==
+= 0.4.1 =
+* Released ...
+* Updated to use PHP5 constructor objects
+
 = 0.4 =
 * Released December 2014
 * Added "in plugin update message" functionality
