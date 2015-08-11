@@ -77,15 +77,11 @@ This plugin currently only handles those themes that can be found in the WordPre
   http://www.gnu.org/licenses/gpl-2.0.html
 
 == Upgrade Notice ==
-= 0.4 =
-* Now requires WordPress Version 3.6 or higher
-* New in plugin update message code added
-* Added some default styles
 * Please stay current with your WordPress installation, your active theme, and your active plugins.
 
 == Changelog ==
 = 0.4.1 =
-* Released ...
+* Released August 2015
 * Updated to use PHP5 constructor objects
 
 = 0.4 =
